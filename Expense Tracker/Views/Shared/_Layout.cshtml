@@ -11,14 +11,31 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
 
 
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/Expense_Tracker.styles.css" asp-append-version="true" />
+   @*  <link rel="stylesheet" href="~/css/style.css">
+    <link rel="stylesheet" href="~/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="~/css/tabler-icons.css"> *@
+
+    <link rel="stylesheet" href="~/custom/assets/libs/OwlCarousel-2/dist/assets/owl.carousel.min.css">
+    <link rel="stylesheet" href="~/custom/dist/css/iconfont/tabler-icons.css">
+    <link rel="stylesheet" href="~/custom/dist/css/style.css">
+
+
+
+
+@*     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Expense_Tracker.styles.css" asp-append-version="true" /> *@
+
 
 
 
 </head>
 <body >
-    <header>
+
+
+
+  @*   <header>
+
+        
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark border-bottom box-shadow">
             <div class="container">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Expense_Tracker</a>
@@ -32,6 +49,7 @@
                             <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li> 
 
+                        
 
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -39,9 +57,39 @@
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <li><a class="dropdown-item" asp-area="" asp-controller="Categories" asp-action="Create">Add Category</a></li>
-                                <li><a class="dropdown-item" asp-controller="Categories" asp-action="Index">View All Categories</a></li>
+                                <li><a class="dropdown-item" asp-controller="Categories" asp-action="Index">Categories Management</a></li>
+                                <li><a class="dropdown-item" asp-controller="Categories" asp-action="Index">Payment Methods Management</a></li>
        
                         
+                            </ul>
+                        </li>
+
+                        <li class="nav-item dropdown">
+
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownUser" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                User
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" asp-area="" asp-controller="Categories" asp-action="Create">Dashboard</a></li>
+                                <li><a class="dropdown-item" asp-controller="Categories" asp-action="Index">Expense Management</a></li>
+                                <li><a class="dropdown-item" asp-controller="Categories" asp-action="Index">Income Management</a></li>
+                                <li><a class="dropdown-item" asp-controller="Categories" asp-action="Index">Budget Management</a></li>
+                          
+                                <li><a class="dropdown-item" asp-controller="Categories" asp-action="Index">Transaction History Management</a></li>
+                                <li><a class="dropdown-item" asp-controller="Categories" asp-action="Index">Recurring Transactions Management</a></li>
+                                <li><a class="dropdown-item" asp-controller="Categories" asp-action="Index">Reports & Analytics</a></li>
+
+                                <li><a class="dropdown-item" asp-controller="Categories" asp-action="Index">User Profile Management</a></li>
+                             
+                                <li><a class="dropdown-item" asp-controller="Categories" asp-action="Index">Notifications</a></li>
+
+                                <li><a class="dropdown-item" asp-controller="Categories" asp-action="Index">Logout</a></li>
+
+
+
+                                
+
+
                             </ul>
                         </li>
                        
@@ -49,21 +97,32 @@
                 </div>
             </div>
         </nav>
-    </header>
+    </header> *@
     <div >
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
+@*     <footer class="border-top footer text-muted">
         <div class="container text-center mt-4">
             &copy; 2024 - Expense_Tracker - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
-    </footer>
+    </footer> *@
+
+
+
+
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+
+    <script src="~/custom/dist/js/jquery.min.js"></script>
+    <script src="~/custom/dist/js/bootstrap.min.js"></script>
+    <script src="~/custom/assets/libs/OwlCarousel-2/dist/owl.carousel.min.js"></script>
+    <script src="~/custom/dist/js/custom.js"></script>
+
     @await RenderSectionAsync("Scripts", required: false)
 
     <!-- Syncfusion ASP.NET Core Script Manager -->

@@ -1,0 +1,11 @@
+<svg width="200" height="60" viewBox="0 0 300 60" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background circle -->
+  <circle cx="40" cy="30" r="30" fill="#FFD245"/>
+
+  <!-- Smaller circles for decoration -->
+  <circle cx="80" cy="20" r="8" fill="#56A8FB"/>
+  <circle cx="100" cy="40" r="8" fill="#FF5C5C"/>
+  
+  <!-- Text in the center -->
+  <text x="110" y="35" font-family="Arial, sans-serif" font-size="18" fill="#333" font-weight="bold">ExpenseTracker</text>
+</svg>

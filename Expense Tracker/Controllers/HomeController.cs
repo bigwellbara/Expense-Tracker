@@ -20,6 +20,12 @@ namespace Expense_Tracker.Controllers
             return View();
         }
 
+        public IActionResult Dashboard()
+        {
+            ViewData["Message"] = message;
+            return View();
+        }
+
         public IActionResult Privacy()
         {
             return View();
