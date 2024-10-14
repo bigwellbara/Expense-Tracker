@@ -1,0 +1,49 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Expense Tracker App</title>
+
+    <link rel="shortcut icon" type="image/png" href="~/dashboard/assets/images/logos/favicon.png" />
+    <link rel="stylesheet" href="~/dashboard/assets/css/styles.min.css" />
+
+
+</head>
+<body>
+    <!--  Body Wrapper -->
+    <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+         data-sidebar-position="fixed" data-header-position="fixed">
+
+
+        <!-- Sidebar Start -->
+        <aside class="left-sidebar">
+
+            @Html.Partial("_SideNav")
+        </aside>
+        <!--  Sidebar End -->
+       
+
+    <div class="body-wrapper">
+            <!-- Top Navigation -->
+            <header class="app-header">
+                @Html.Partial("_TopNav")
+            </header>
+        <!-- Main Content Area -->
+        @RenderBody()
+    </div>
+
+    </div>
+
+    <script src="~/dashboard/assets/libs/jquery/dist/jquery.min.js"></script>
+    <script src="~/dashboard/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/dashboard/assets/js/sidebarmenu.js"></script>
+    <script src="~/dashboar/assets/js/app.min.js"></script>
+    <script src="~/dashboard/assets/libs/apexcharts/dist/apexcharts.min.js"></script>
+    <script src="~/dashboard/assets/libs/simplebar/dist/simplebar.js"></script>
+    <script src="~/dashboard/assets/js/dashboard.js"></script>
+
+
+</body>
+</html>
+

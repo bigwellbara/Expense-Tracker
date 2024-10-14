@@ -33,89 +33,31 @@
 
 </head>
 <body >
+    <!--  Body Wrapper -->
+  @*   <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+         data-sidebar-position="fixed" data-header-position="fixed"> *@
+    <!-- Top Navigation -->
+      @*   <header class="app-header">
+        @Html.Partial("_TopNav")
+        </header>
 
 
+            <!-- Sidebar Start -->
+            <aside class="left-sidebar">
+                
+                @Html.Partial("_SideNav")
+            </aside> *@
+            <!--  Sidebar End -->
 
-  @*   <header>
-
-        
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark border-bottom box-shadow">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Expense_Tracker</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li> 
-
-                        
-
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Admin
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" asp-area="" asp-controller="Categories" asp-action="Create">Add Category</a></li>
-                                <li><a class="dropdown-item" asp-controller="Categories" asp-action="Index">Categories Management</a></li>
-                                <li><a class="dropdown-item" asp-controller="Categories" asp-action="Index">Payment Methods Management</a></li>
-       
-                        
-                            </ul>
-                        </li>
-
-                        <li class="nav-item dropdown">
-
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownUser" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                User
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" asp-area="" asp-controller="Categories" asp-action="Create">Dashboard</a></li>
-                                <li><a class="dropdown-item" asp-controller="Categories" asp-action="Index">Expense Management</a></li>
-                                <li><a class="dropdown-item" asp-controller="Categories" asp-action="Index">Income Management</a></li>
-                                <li><a class="dropdown-item" asp-controller="Categories" asp-action="Index">Budget Management</a></li>
-                          
-                                <li><a class="dropdown-item" asp-controller="Categories" asp-action="Index">Transaction History Management</a></li>
-                                <li><a class="dropdown-item" asp-controller="Categories" asp-action="Index">Recurring Transactions Management</a></li>
-                                <li><a class="dropdown-item" asp-controller="Categories" asp-action="Index">Reports & Analytics</a></li>
-
-                                <li><a class="dropdown-item" asp-controller="Categories" asp-action="Index">User Profile Management</a></li>
-                             
-                                <li><a class="dropdown-item" asp-controller="Categories" asp-action="Index">Notifications</a></li>
-
-                                <li><a class="dropdown-item" asp-controller="Categories" asp-action="Index">Logout</a></li>
-
-
-
-                                
-
-
-                            </ul>
-                        </li>
-                       
-                    </ul>
-                </div>
+            <div class="body-wrapper">
+                <!-- Main Content Area -->
+                @RenderBody()
             </div>
-        </nav>
-    </header> *@
-    <div >
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
+      
     </div>
+   @*  </div> *@
 
-@*     <footer class="border-top footer text-muted">
-        <div class="container text-center mt-4">
-            &copy; 2024 - Expense_Tracker - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer> *@
-
-
-
-
+@* footer can go here *@
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
@@ -133,6 +75,8 @@
     <script src="~/dashboard/assets/libs/apexcharts/dist/apexcharts.min.js"></script>
     <script src="~/dashboard/assets/libs/simplebar/dist/simplebar.js"></script>
     <script src="~/dashboard/assets/js/dashboard.js"></script>
+
+
 
     @await RenderSectionAsync("Scripts", required: false)
 

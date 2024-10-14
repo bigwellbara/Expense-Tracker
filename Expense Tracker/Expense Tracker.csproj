@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <Content Remove="Views\Home\Index - Copy.cshtml" />
+    <Content Remove="Views\Shared\_DashboradLayout.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -38,6 +39,15 @@
 
   <ItemGroup>
     <_ContentIncludedByDefault Remove="Views\Home\Dashboard.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Shared\_DashboradLayout.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\Shared\_DashboradLayout.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Views\Shared\_DashboradLayout.cshtml" />
   </ItemGroup>
 
 </Project>
