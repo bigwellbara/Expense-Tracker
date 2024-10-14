@@ -17,11 +17,11 @@
             <!-- Checkboxes Section -->
             <div class="form-row d-flex justify-content-end mb-4" style="margin-right: 25%;">
                 <div class="form-check form-check-inline mx-3">
-                    <input class="form-check-input" type="checkbox" value="" id="checkbox1">
+                    <input class="form-check-input filter-checkbox" type="checkbox" value="" id="checkbox1">
                     <label class="form-check-label" for="checkbox1">Expense</label>
                 </div>
                 <div class="form-check form-check-inline mx-3">
-                    <input class="form-check-input" type="checkbox" value="" id="checkbox2" checked>
+                    <input class="form-check-input filter-checkbox" type="checkbox" value="" id="checkbox2" checked>
                     <label class="form-check-label" for="checkbox2">Income</label>
                 </div>
             </div>
@@ -45,7 +45,7 @@
 
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="categoryTable">
                         @foreach (var item in Model)
                         {
                             <tr>
@@ -76,6 +76,41 @@
         </div>
       </div>
 
+
+
+<!-- AJAX Script -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // Trigger the filterTable function when checkboxes change
+        $('.filter-checkbox').change(function () {
+            filterTable();
+        });
+
+        // Function to send AJAX request and filter table
+        function filterTable() {
+            // Get selected types
+            const selectedTypes = [];
+            $('.filter-checkbox:checked').each(function () {
+                selectedTypes.push($(this).val());
+            });
+
+            // Send AJAX request to server
+            $.ajax({
+                url: '@Url.Action("Filter", "Category")',
+                type: 'GET',
+                data: { types: selectedTypes },
+                success: function (data) {
+                    // Replace the table body with the filtered rows
+                    $('#categoryTable').html(data);
+                },
+                error: function () {
+                    alert('Error filtering table.');
+                }
+            });
+        }
+    });
+</script>
 
 
 

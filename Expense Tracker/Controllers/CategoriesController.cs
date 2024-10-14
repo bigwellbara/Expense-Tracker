@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Expense_Tracker.Models;
 using Expense_Tracker.Models.Database;
 using MongoDB.Driver;
+using MongoDB.Driver.Linq;
 
 namespace Expense_Tracker.Controllers
 {
@@ -34,6 +35,23 @@ namespace Expense_Tracker.Controllers
             return View(categories);
 
 
+        }
+
+
+        [HttpGet]
+        public IActionResult Filter(List<string> types)
+        {
+        
+            var categoriesCollection = _mongoDbContext.Categories.AsQueryable();  
+
+            // Apply filtering based on the types (Expense or Income)
+            if (types != null && types.Count > 0)
+            {
+                categoriesCollection = categoriesCollection.Where(c => types.Contains(c.Type));
+            }
+
+            // Return partial view with filtered table rows
+            return PartialView("_CategoryTableRows", categoriesCollection.ToList());
         }
 
 
