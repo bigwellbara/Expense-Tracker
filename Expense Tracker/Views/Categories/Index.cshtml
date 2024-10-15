@@ -8,57 +8,41 @@
     Layout = "~/Views/Shared/_DashboardLayout.cshtml";
 }
 
-
- <div class="container-fluid">
-        <div class="card">
-          <div class="card-body">
+@* <div class="container-fluid">
+    <div class="card">
+        <div class="card-body">
             <h5 class="card-title fw-semibold mb-4">Categories</h5>
 
             <!-- Checkboxes Section -->
             <div class="form-row d-flex justify-content-end mb-4" style="margin-right: 25%;">
                 <div class="form-check form-check-inline mx-3">
-                    <input class="form-check-input filter-checkbox" type="checkbox" value="" id="checkbox1">
+                    <input class="form-check-input filter-checkbox" type="checkbox" value="Expense" id="checkbox1">
                     <label class="form-check-label" for="checkbox1">Expense</label>
                 </div>
                 <div class="form-check form-check-inline mx-3">
-                    <input class="form-check-input filter-checkbox" type="checkbox" value="" id="checkbox2" checked>
+                    <input class="form-check-input filter-checkbox" type="checkbox" value="Income" id="checkbox2" checked>
                     <label class="form-check-label" for="checkbox2">Income</label>
                 </div>
             </div>
 
+            <div id="loadingSpinner" style="display:none;">Loading...</div>
 
-
-
-            <div class="container  py-5 ">
+            <div class="container py-5">
                 <table class="table text-dark">
                     <thead>
                         <tr>
-                            <th>
-                                @Html.DisplayNameFor(model => model.Title)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.Description)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.Type)
-                            </th>
-
+                            <th>@Html.DisplayNameFor(model => model.Title)</th>
+                            <th>@Html.DisplayNameFor(model => model.Description)</th>
+                            <th>@Html.DisplayNameFor(model => model.Type)</th>
                         </tr>
                     </thead>
-                    <tbody id="categoryTable">
+                    <tbody ">
                         @foreach (var item in Model)
                         {
                             <tr>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Title)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Description)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Type)
-                                </td>
-
+                                <td>@Html.DisplayFor(modelItem => item.Title)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Description)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Type)</td>
                                 <td>
                                     <a asp-action="Edit" asp-route-id="@item.CategoryId">Edit</a> |
                                     <a asp-action="Details" asp-route-id="@item.CategoryId">View</a> |
@@ -69,49 +53,165 @@
                     </tbody>
                 </table>
             </div>
-
-
-
         </div>
+    </div>
+</div> *@
+
+@* <div class="container-fluid">
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title fw-semibold mb-4">Categories</h5>
+
+            <!-- Checkboxes Section -->
+            <div class="form-row d-flex justify-content-end mb-4" style="margin-right: 25%;">
+                <div class="form-check form-check-inline mx-3">
+                    <input class="form-check-input filter-checkbox" type="checkbox" value="Expense" id="checkbox1">
+                    <label class="form-check-label" for="checkbox1">Expense</label>
+                </div>
+                <div class="form-check form-check-inline mx-3">
+                    <input class="form-check-input filter-checkbox" type="checkbox" value="Income" id="checkbox2" checked>
+                    <label class="form-check-label" for="checkbox2">Income</label>
+                </div>
+            </div>
+
+            <div id="loadingSpinner" style="display:none;">Loading...</div>
+
+            <div class="container py-5">
+                <table class="table text-dark" id="categoriesTable">
+                    <thead>
+                        <tr>
+                            <th>@Html.DisplayNameFor(model => model.Title)</th>
+                            <th>@Html.DisplayNameFor(model => model.Description)</th>
+                            <th>@Html.DisplayNameFor(model => model.Type)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr class="category-row" data-type="@item.Type">
+                                <td>@Html.DisplayFor(modelItem => item.Title)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Description)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Type)</td>
+                                <td>
+                                    <a asp-action="Edit" asp-route-id="@item.CategoryId">Edit</a> |
+                                    <a asp-action="Details" asp-route-id="@item.CategoryId">View</a> |
+                                    <a asp-action="Delete" asp-route-id="@item.CategoryId">Delete</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
         </div>
-      </div>
+    </div>
+</div>
 
 
-
-<!-- AJAX Script -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-    $(document).ready(function () {
-        // Trigger the filterTable function when checkboxes change
-        $('.filter-checkbox').change(function () {
-            filterTable();
-        });
+    document.addEventListener('DOMContentLoaded', function () {
+        const checkboxes = document.querySelectorAll('.filter-checkbox');
+        const tableRows = document.querySelectorAll('.category-row');
 
-        // Function to send AJAX request and filter table
-        function filterTable() {
-            // Get selected types
-            const selectedTypes = [];
-            $('.filter-checkbox:checked').each(function () {
-                selectedTypes.push($(this).val());
-            });
+        // Function to filter rows based on selected checkboxes
+        function filterRows() {
+            const selectedTypes = Array.from(checkboxes)
+                .filter(checkbox => checkbox.checked)
+                .map(checkbox => checkbox.value);
 
-            // Send AJAX request to server
-            $.ajax({
-                url: '@Url.Action("Filter", "Category")',
-                type: 'GET',
-                data: { types: selectedTypes },
-                success: function (data) {
-                    // Replace the table body with the filtered rows
-                    $('#categoryTable').html(data);
-                },
-                error: function () {
-                    alert('Error filtering table.');
+            tableRows.forEach(row => {
+                const rowType = row.getAttribute('data-type');
+                if (selectedTypes.includes(rowType)) {
+                    row.style.display = '';  // Show row
+                } else {
+                    row.style.display = 'none';  // Hide row
                 }
             });
         }
+
+        // Add event listeners to checkboxes
+        checkboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', filterRows);
+        });
+
+        // Initial filter when the page loads
+        filterRows();
     });
 </script>
+ *@
 
 
 
+<div class="container-fluid">
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title fw-semibold mb-4">Categories</h5>
 
+            <!-- Checkboxes Section -->
+            <div class="form-row d-flex justify-content-end mb-4" style="margin-right: 25%;">
+              Apply Filters
+                <div class="form-check form-check-inline mx-3">
+                    <input class="form-check-input filter-checkbox" type="checkbox" value="Expense" id="checkbox1" checked>
+                    <label class="form-check-label" for="checkbox1">Expense</label>
+                </div>
+                <div class="form-check form-check-inline mx-3">
+                    <input class="form-check-input filter-checkbox" type="checkbox" value="Income" id="checkbox2" checked>
+                    <label class="form-check-label" for="checkbox2">Income</label>
+                </div>
+            </div>
+
+            <div id="loadingSpinner" style="display:none;">Loading...</div>
+
+            <div class="container py-5" id="categoriesTable">
+                <!-- Table content will be rendered here via AJAX -->
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const checkboxes = document.querySelectorAll('.filter-checkbox');
+
+        function loadFilteredCategories() {
+            const selectedTypes = Array.from(checkboxes)
+                .filter(checkbox => checkbox.checked)
+                .map(checkbox => checkbox.value);
+
+            console.log('Selected Types:', selectedTypes); // Log to verify selected types
+
+            // Show loading spinner
+            document.getElementById('loadingSpinner').style.display = 'block';
+
+            // Send the filter request to the server
+            fetch('/Categories/Filter', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val() // anti-forgery token if needed
+                },
+                body: JSON.stringify({
+                    types: selectedTypes
+                })
+            })
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('categoriesTable').innerHTML = data;
+                    document.getElementById('loadingSpinner').style.display = 'none';
+                });
+        }
+
+      
+
+
+        // Add event listeners to checkboxes
+        checkboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', loadFilteredCategories);
+        });
+
+        // Initial load
+        loadFilteredCategories();
+    });
+</script>

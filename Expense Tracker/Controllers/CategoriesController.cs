@@ -31,27 +31,73 @@ namespace Expense_Tracker.Controllers
             //return View(await _context.Categories.ToListAsync());
 
             // using mongodb context
-            var categories = await _mongoDbContext.Categories.Find( _ => true).ToListAsync();
-            return View(categories);
+            
+            var allCategories = await _mongoDbContext.Categories.Find(_ => true).ToListAsync(); 
+            return View(allCategories); 
+        }
 
+        public async Task<IActionResult> CategoriesDashboard()
+        {
+          
+            // using mongodb context
 
+            var allCategories = await _mongoDbContext.Categories.Find(_ => true).ToListAsync();
+            return View(allCategories);
         }
 
 
-        [HttpGet]
-        public IActionResult Filter(List<string> types)
+
+
+
+        //[HttpGet]
+        //public IActionResult Filters(List<string> types)
+        //{
+
+        //    var categoriesCollection = _mongoDbContext.Categories.AsQueryable();  
+
+        //    // Apply filtering based on the types (Expense or Income)
+        //    if (types != null && types.Count > 0)
+        //    {
+        //        categoriesCollection = categoriesCollection.Where(c => types.Contains(c.Type));
+        //    }
+
+        //    var filteredCategories = categoriesCollection.ToList();
+        //    if (!filteredCategories.Any())
+        //    {
+        //        Console.WriteLine("No categories found for the selected types.");
+        //    }
+        //    return PartialView("~/Views/Categories/Partials/_CategoryTableRows.cshtml", filteredCategories);
+        //}
+
+
+        //[HttpGet]
+        //public IActionResult Filters(List<string> types)
+        //{
+        //    var filter = Builders<Category>.Filter.Empty;
+
+        //    if (types?.Any() == true)
+        //    {
+        //        filter = Builders<Category>.Filter.In(c => c.Type, types);
+        //    }
+
+        //    var filteredCategories = _mongoDbContext.Categories.Find(filter).ToList();
+
+
+
+        //    return PartialView("~/Views/Categories/Partials/_CategoryTableRows.cshtml", filteredCategories);
+        //}
+
+
+        // POST: /Category/Filter
+        [HttpPost]
+        public IActionResult Filter([FromBody] FilterRequest filterRequest)
         {
-        
-            var categoriesCollection = _mongoDbContext.Categories.AsQueryable();  
+            var filter = Builders<Category>.Filter.In(c => c.Type, filterRequest.Types);
+            var filteredCategories = _mongoDbContext.Categories.Find(filter).ToList();
 
-            // Apply filtering based on the types (Expense or Income)
-            if (types != null && types.Count > 0)
-            {
-                categoriesCollection = categoriesCollection.Where(c => types.Contains(c.Type));
-            }
+            return PartialView("_CategoryTablePartial", filteredCategories); // Use a partial view for the table content
 
-            // Return partial view with filtered table rows
-            return PartialView("_CategoryTableRows", categoriesCollection.ToList());
+     
         }
 
 
@@ -232,4 +278,10 @@ namespace Expense_Tracker.Controllers
         }
 
     }
+}
+
+
+public class FilterRequest
+{
+    public List<string> Types { get; set; }
 }
