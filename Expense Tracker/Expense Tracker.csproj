@@ -8,6 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Views\Categories\Partials\**" />
+    <Content Remove="Views\Categories\Partials\**" />
+    <EmbeddedResource Remove="Views\Categories\Partials\**" />
+    <None Remove="Views\Categories\Partials\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Remove="Views\Home\Dashboard.cshtml.cs" />
   </ItemGroup>
 

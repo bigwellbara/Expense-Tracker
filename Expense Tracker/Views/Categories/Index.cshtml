@@ -8,137 +8,6 @@
     Layout = "~/Views/Shared/_DashboardLayout.cshtml";
 }
 
-@* <div class="container-fluid">
-    <div class="card">
-        <div class="card-body">
-            <h5 class="card-title fw-semibold mb-4">Categories</h5>
-
-            <!-- Checkboxes Section -->
-            <div class="form-row d-flex justify-content-end mb-4" style="margin-right: 25%;">
-                <div class="form-check form-check-inline mx-3">
-                    <input class="form-check-input filter-checkbox" type="checkbox" value="Expense" id="checkbox1">
-                    <label class="form-check-label" for="checkbox1">Expense</label>
-                </div>
-                <div class="form-check form-check-inline mx-3">
-                    <input class="form-check-input filter-checkbox" type="checkbox" value="Income" id="checkbox2" checked>
-                    <label class="form-check-label" for="checkbox2">Income</label>
-                </div>
-            </div>
-
-            <div id="loadingSpinner" style="display:none;">Loading...</div>
-
-            <div class="container py-5">
-                <table class="table text-dark">
-                    <thead>
-                        <tr>
-                            <th>@Html.DisplayNameFor(model => model.Title)</th>
-                            <th>@Html.DisplayNameFor(model => model.Description)</th>
-                            <th>@Html.DisplayNameFor(model => model.Type)</th>
-                        </tr>
-                    </thead>
-                    <tbody ">
-                        @foreach (var item in Model)
-                        {
-                            <tr>
-                                <td>@Html.DisplayFor(modelItem => item.Title)</td>
-                                <td>@Html.DisplayFor(modelItem => item.Description)</td>
-                                <td>@Html.DisplayFor(modelItem => item.Type)</td>
-                                <td>
-                                    <a asp-action="Edit" asp-route-id="@item.CategoryId">Edit</a> |
-                                    <a asp-action="Details" asp-route-id="@item.CategoryId">View</a> |
-                                    <a asp-action="Delete" asp-route-id="@item.CategoryId">Delete</a>
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-</div> *@
-
-@* <div class="container-fluid">
-    <div class="card">
-        <div class="card-body">
-            <h5 class="card-title fw-semibold mb-4">Categories</h5>
-
-            <!-- Checkboxes Section -->
-            <div class="form-row d-flex justify-content-end mb-4" style="margin-right: 25%;">
-                <div class="form-check form-check-inline mx-3">
-                    <input class="form-check-input filter-checkbox" type="checkbox" value="Expense" id="checkbox1">
-                    <label class="form-check-label" for="checkbox1">Expense</label>
-                </div>
-                <div class="form-check form-check-inline mx-3">
-                    <input class="form-check-input filter-checkbox" type="checkbox" value="Income" id="checkbox2" checked>
-                    <label class="form-check-label" for="checkbox2">Income</label>
-                </div>
-            </div>
-
-            <div id="loadingSpinner" style="display:none;">Loading...</div>
-
-            <div class="container py-5">
-                <table class="table text-dark" id="categoriesTable">
-                    <thead>
-                        <tr>
-                            <th>@Html.DisplayNameFor(model => model.Title)</th>
-                            <th>@Html.DisplayNameFor(model => model.Description)</th>
-                            <th>@Html.DisplayNameFor(model => model.Type)</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var item in Model)
-                        {
-                            <tr class="category-row" data-type="@item.Type">
-                                <td>@Html.DisplayFor(modelItem => item.Title)</td>
-                                <td>@Html.DisplayFor(modelItem => item.Description)</td>
-                                <td>@Html.DisplayFor(modelItem => item.Type)</td>
-                                <td>
-                                    <a asp-action="Edit" asp-route-id="@item.CategoryId">Edit</a> |
-                                    <a asp-action="Details" asp-route-id="@item.CategoryId">View</a> |
-                                    <a asp-action="Delete" asp-route-id="@item.CategoryId">Delete</a>
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const checkboxes = document.querySelectorAll('.filter-checkbox');
-        const tableRows = document.querySelectorAll('.category-row');
-
-        // Function to filter rows based on selected checkboxes
-        function filterRows() {
-            const selectedTypes = Array.from(checkboxes)
-                .filter(checkbox => checkbox.checked)
-                .map(checkbox => checkbox.value);
-
-            tableRows.forEach(row => {
-                const rowType = row.getAttribute('data-type');
-                if (selectedTypes.includes(rowType)) {
-                    row.style.display = '';  // Show row
-                } else {
-                    row.style.display = 'none';  // Hide row
-                }
-            });
-        }
-
-        // Add event listeners to checkboxes
-        checkboxes.forEach(checkbox => {
-            checkbox.addEventListener('change', filterRows);
-        });
-
-        // Initial filter when the page loads
-        filterRows();
-    });
-</script>
- *@
-
 
 
 <div class="container-fluid">
@@ -170,6 +39,7 @@
         </div>
     </div>
 </div>
+
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -214,4 +84,12 @@
         // Initial load
         loadFilteredCategories();
     });
+
+
+
+
+
+
+
+    
 </script>
