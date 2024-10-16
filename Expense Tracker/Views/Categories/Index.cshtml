@@ -13,7 +13,10 @@
 <div class="container-fluid">
     <div class="card">
         <div class="card-body">
-            <h5 class="card-title fw-semibold mb-4">Categories</h5>
+            <div class="d-flex justify-content-between mb-4">
+                <h5 class="card-title fw-semibold">Categories</h5>
+
+            </div>
 
             <!-- Checkboxes Section -->
             <div class="form-row d-flex justify-content-end mb-4" style="margin-right: 25%;">
@@ -30,11 +33,58 @@
 
             <div id="loadingSpinner" style="display:none;">Loading...</div>
 
+            <div class="d-flex justify-content-end mb-4 " style=" margin-right: 10%;">
+            <!-- Add Category Button -->
+@*             <a href="@Url.Action("Create", "Categories")" class="btn btn-success">Add Category</a> *@
+
+                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addCategoryModal">
+                    Add Category
+                </button>
+            </div>
+
             <div class="container py-5" id="categoriesTable">
                 <!-- Table content will be rendered here via AJAX -->
 
 
 
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Modal Structure for Adding Category -->
+<div class="modal fade" id="addCategoryModal" tabindex="-1" aria-labelledby="addCategoryModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addCategoryModalLabel">Add New Category</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Form for Adding Category -->
+                <form asp-action="Create" method="post">
+                    <div class="mb-3">
+                        <label for="Title" class="form-label">Title</label>
+                        <input type="text" class="form-control" id="Title" name="Title" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="Description" class="form-label">Description</label>
+                        <input type="text" class="form-control" id="Description" name="Description">
+                    </div>
+                    <div class="mb-3">
+                        <label for="Type" class="form-label">Type</label>
+                        <select class="form-control" id="Type" name="Type" required>
+                            <option value="Expense">Expense</option>
+                            <option value="Income">Income</option>
+                        </select>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save Category</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
