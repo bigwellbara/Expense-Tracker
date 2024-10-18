@@ -1,0 +1,149 @@
+﻿@model Expense_Tracker.ViewModels.ExpensesViewModel
+
+@{
+    ViewData["Title"] = "Expenses Index";
+}
+
+@{
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+}
+
+@functions {
+    public string WordWrap(string text, int wordsPerLine)
+    {
+        if (string.IsNullOrEmpty(text))
+            return text;
+
+        var words = text.Split(' ');
+        var wrappedText = new System.Text.StringBuilder();
+
+        for (int i = 0; i < words.Length; i++)
+        {
+            wrappedText.Append(words[i]);
+
+            if ((i + 1) % wordsPerLine == 0 && i != words.Length - 1)
+                wrappedText.Append("<br /> "); // Insert a line break after every seven words
+            else
+                wrappedText.Append(" ");
+        }
+
+        return wrappedText.ToString().Trim();
+    }
+}
+
+<div class="container-fluid">
+    <div class="card">
+        <div class="card-body">
+            <div class="d-flex justify-content-between mb-4">
+                <h5 class="card-title fw-semibold">Expenses</h5>
+            </div>
+
+            <div class="d-flex justify-content-end mb-4" style="margin-right: 10%;">
+                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addExpenseModal">
+                    Add Expense
+                </button>
+            </div>
+
+            <!-- Table to display the list of expenses -->
+            <div class="table-responsive">
+                <table class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Amount</th>
+                            <th>Description</th>
+                            <th>Date</th>
+                            <th>Category</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.Expenses.Any())
+                        {
+                            foreach (var expense in Model.Expenses)
+                            {
+                                <tr>
+                                    <td>@expense.Title</td>
+                                    <td>@expense.Amount.ToString("C")</td>
+                                    <td style="word-wrap: break-word; white-space: normal;">
+                                        @Html.Raw(WordWrap(expense.Description, 7))
+                                    </td>
+
+                                    <td style="white-space: nowrap;">
+                                        @expense.ExpenseDate.ToString("dd-MM-yyyy")
+                                    </td>
+
+                                    <td>
+                                        @* Fetch the category name from Model.Categories using the CategoryId *@
+                                        @{
+                                            var category = Model.Categories.FirstOrDefault(c => c.CategoryId == expense.CategoryId);
+                                            var categoryName = category != null ? category.Title : "Unknown Category"; // Handle null case
+                                        }
+                                        @categoryName
+                                    </td>
+
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <a asp-action="Edit" asp-route-id="@expense.ExpenseId" class="btn btn-sm btn-primary me-1">Edit</a>
+                                            <a asp-action="Delete" asp-route-id="@expense.ExpenseId" class="btn btn-sm btn-danger">Delete</a>
+                                        </div>
+                                    </td>
+
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="6" class="text-center">No expenses found</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal for adding expense -->
+<div class="modal fade" id="addExpenseModal" tabindex="-1" aria-labelledby="addExpenseModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addExpenseModalLabel">Add Expense</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form asp-action="CreateExpense" method="post">
+                    <div class="mb-3">
+                        <label for="Title" class="form-label">Title</label>
+                        <input type="text" class="form-control" id="Title" name="Title" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="Amount" class="form-label">Amount</label>
+                        <input type="number" class="form-control" id="Amount" name="Amount" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="Description" class="form-label">Description</label>
+                        <textarea class="form-control" id="Description" name="Description"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="ExpenseDate" class="form-label">Expense Date</label>
+                        <input type="date" class="form-control" id="ExpenseDate" name="ExpenseDate" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="CategoryId" class="form-label">Category</label>
+                        <select class="form-control" id="CategoryId" name="CategoryId" required>
+                            <option value="">Select a Category</option>
+                            @foreach (var category in Model.Categories)
+                            {
+                                <option value="@category.CategoryId">@category.Title</option>
+                            }
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add Expense</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

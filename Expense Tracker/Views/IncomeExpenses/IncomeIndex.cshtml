@@ -1,0 +1,144 @@
+﻿@* @model IEnumerable<Expense_Tracker.Models.Income> *@
+    @model Expense_Tracker.ViewModels.IncomeViewModel
+
+@{
+    ViewData["Title"] = "Income Index";
+}
+
+@{
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+}
+
+@functions {
+    public string WordWrap(string text, int wordsPerLine)
+    {
+        if (string.IsNullOrEmpty(text))
+            return text;
+
+        var words = text.Split(' ');
+        var wrappedText = new System.Text.StringBuilder();
+
+        for (int i = 0; i < words.Length; i++)
+        {
+            wrappedText.Append(words[i]);
+
+            if ((i + 1) % wordsPerLine == 0 && i != words.Length - 1)
+                wrappedText.Append("<br /> "); // Insert a line break after every seven words
+            else
+                wrappedText.Append(" ");
+        }
+
+        return wrappedText.ToString().Trim();
+    }
+}
+
+<div class="container-fluid">
+    <div class="card">
+        <div class="card-body">
+            <div class="d-flex justify-content-between mb-4">
+                <h5 class="card-title fw-semibold">Income</h5>
+            </div>
+
+            <div class="d-flex justify-content-end mb-4" style="margin-right: 10%;">
+                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addIncomeModal">
+                    Add Income Detail
+                </button>
+            </div>
+
+            <!-- Table to display the list of income -->
+            <div class="table-responsive">
+                <table class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Source</th>
+                            <th>Amount</th>
+                            <th>Description</th>
+                            <th>IncomeDate</th>
+                            <th>Category</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.Income.Any())
+                        {
+                            foreach (var income in Model.Income)
+                            {
+                                <tr>
+                                    <td>@income.Source</td>
+                                    <td>@income.Amount.ToString("C") <!-- Format as currency --></td>
+                                    <td style="word-wrap: break-word; white-space: normal;">
+                                        @Html.Raw(WordWrap(income.Description, 7))
+                                    </td>
+                                    <td style="white-space: nowrap;">
+                                        @income.IncomeDate.ToString("dd-MM-yyyy")
+                                        </td>
+                                    <td>
+                                        @Model.Categories.FirstOrDefault(c => c.CategoryId == income.CategoryId)?.Title
+                                    </td>
+
+                                    <td>
+                                        <a asp-action="Edit" asp-route-id="@income.IncomeId" class="btn btn-sm btn-primary">Edit</a>
+                                        <a asp-action="Delete" asp-route-id="@income.IncomeId" class="btn btn-sm btn-danger">Delete</a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="6" class="text-center">No income details found</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal for adding income -->
+<div class="modal fade" id="addIncomeModal" tabindex="-1" aria-labelledby="addIncomeModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addIncomeModalLabel">Add Income Detail</h5>
+           @*      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> *@
+            </div>
+            <div class="modal-body">
+                <form asp-action="CreateIncome" method="post">
+                    <div class="mb-3">
+                        <label for="Source" class="form-label">Source</label>
+                        <input type="text" class="form-control" id="Source" name="Source" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="Amount" class="form-label">Amount</label>
+                        <input type="number" class="form-control" id="Amount" name="Amount" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="Description" class="form-label">Description</label>
+                        <textarea class="form-control" id="Description" name="Description"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="IncomeDate" class="form-label">Income Date</label>
+                        <input type="date" class="form-control" id="IncomeDate" name="IncomeDate" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="CategoryId" class="form-label">Category</label>
+                        <select class="form-control" id="CategoryId" name="CategoryId" required>
+                            <option value="">Select a Category</option>
+                            @foreach (var category in Model.Categories)
+                            {
+                                <option value="@category.CategoryId">@category.Title</option>
+                            }
+                        </select>
+                    </div>
+                  
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Add Income</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
