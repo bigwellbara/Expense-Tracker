@@ -1,0 +1,39 @@
+﻿@model Expense_Tracker.ViewModels.IncomeEditViewModel
+
+<form id="editIncomeForm" method="post">
+    @Html.AntiForgeryToken()
+
+    <input type="hidden" asp-for="Income.IncomeId" />
+
+    <div class="form-group">
+        <label asp-for="Income.Source" class="control-label"></label>
+        <input asp-for="Income.Source" class="form-control" />
+        <span asp-validation-for="Income.Source" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Income.Amount" class="control-label"></label>
+        <input asp-for="Income.Amount" class="form-control" />
+        <span asp-validation-for="Income.Amount" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Income.Description" class="control-label"></label>
+        <textarea asp-for="Income.Description" class="form-control"></textarea>
+        <span asp-validation-for="Income.Description" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Income.IncomeDate" class="control-label"></label>
+        <input asp-for="Income.IncomeDate" type="date" class="form-control" />
+        <span asp-validation-for="Income.IncomeDate" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Income.CategoryId" class="control-label">Category</label>
+        <select asp-for="Income.CategoryId" class="form-control">
+            <option value="">Select a Category</option>
+            @foreach (var category in Model.Categories)
+            {
+                <option value="@category.CategoryId">@category.Title</option>
+            }
+        </select>
+        <span asp-validation-for="Income.CategoryId" class="text-danger"></span>
+    </div>
+</form>
