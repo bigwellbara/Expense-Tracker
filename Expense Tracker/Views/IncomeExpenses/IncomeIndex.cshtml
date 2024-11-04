@@ -250,30 +250,7 @@
     });
 
 
-    function deleteIncome(incomeId) {
-        if (!confirm("Are you sure you want to delete this income entry?")) {
-            return; // Exit if the user cancels the action
-        }
-
-        $.ajax({
-            url: '/Income/DeleteIncome/' + incomeId, // Assuming "Income" is the controller
-            type: 'POST',
-            headers: {
-                'RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val() // Add anti-forgery token
-            },
-            success: function (response) {
-                if (response.success) {
-                    alert('Income entry deleted successfully');
-                    location.reload(); // Refresh the page or remove the item from the DOM
-                } else {
-                    alert(response.message || 'An error occurred while deleting the income.');
-                }
-            },
-            error: function (xhr) {
-                alert('An error occurred while processing the request.');
-            }
-        });
-    }
+  
 
     function confirmDeleteIncome() {
         var incomeId = $('#incomeIdToDelete').val();

@@ -57,4 +57,11 @@
     <None Include="Views\Shared\_DashboradLayout.cshtml" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="Views\IncomeExpenses\_EditExpensePartial.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>
