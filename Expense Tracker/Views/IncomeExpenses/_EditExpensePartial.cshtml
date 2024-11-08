@@ -1,83 +1,39 @@
-﻿@model Expense_Tracker.ViewModels.ExpenseEditViewModel
-
-@* <form id="editExpenseForm" method="post">
-    @Html.AntiForgeryToken()
-
-    <input type="hidden" asp-for="Expense.ExpenseId" />
-
-    <div class="form-group">
-        <label asp-for="Expense.Title" class="control-label"></label>
-        <input asp-for="Expense.Title" class="form-control" />
-        <span asp-validation-for="Expense.Title" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Expense.Amount" class="control-label"></label>
-        <input asp-for="Expense.Amount" type="number" class="form-control" />
-        <span asp-validation-for="Expense.Amount" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Expense.Description" class="control-label"></label>
-        <textarea asp-for="Expense.Description" class="form-control"></textarea>
-        <span asp-validation-for="Expense.Description" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Expense.ExpenseDate" class="control-label"></label>
-        <input asp-for="Expense.ExpenseDate" type="date" class="form-control" />
-        <span asp-validation-for="Expense.ExpenseDate" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Expense.CategoryId" class="control-label">Category</label>
-        <select asp-for="Expense.CategoryId" class="form-control">
-            <option value="">Select a Category</option>
-            @foreach (var category in Model.Categories)
-            {
-                <option value="@category.CategoryId">@category.Title</option>
-            }
-        </select>
-        <span asp-validation-for="Expense.CategoryId" class="text-danger"></span>
-    </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-primary">Save changes</button>
-    </div>
-</form> *@
-
+﻿@model Expense_Tracker.Models.Expense
 
 <form id="editExpenseForm" asp-action="UpdateExpense" method="post">
     @Html.AntiForgeryToken()
+    <input type="hidden" asp-for="ExpenseId" />
 
-    <input type="hidden" asp-for="Expense.ExpenseId" />
-
     <div class="form-group">
-        <label asp-for="Expense.Title" class="control-label"></label>
-        <input asp-for="Expense.Title" class="form-control" />
-        <span asp-validation-for="Expense.Title" class="text-danger"></span>
+        <label asp-for="Title" class="control-label"></label>
+        <input asp-for="Title" class="form-control" />
+        <span asp-validation-for="Title" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label asp-for="Expense.Amount" class="control-label"></label>
-        <input asp-for="Expense.Amount" type="number" class="form-control" />
-        <span asp-validation-for="Expense.Amount" class="text-danger"></span>
+        <label asp-for="Amount" class="control-label"></label>
+        <input asp-for="Amount" type="number" class="form-control" />
+        <span asp-validation-for="Amount" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label asp-for="Expense.Description" class="control-label"></label>
-        <textarea asp-for="Expense.Description" class="form-control"></textarea>
-        <span asp-validation-for="Expense.Description" class="text-danger"></span>
+        <label asp-for="Description" class="control-label"></label>
+        <textarea asp-for="Description" class="form-control"></textarea>
+        <span asp-validation-for="Description" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label asp-for="Expense.ExpenseDate" class="control-label"></label>
-        <input asp-for="Expense.ExpenseDate" type="date" class="form-control" />
-        <span asp-validation-for="Expense.ExpenseDate" class="text-danger"></span>
+        <label asp-for="ExpenseDate" class="control-label"></label>
+        <input asp-for="ExpenseDate" type="date" class="form-control" />
+        <span asp-validation-for="ExpenseDate" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label asp-for="Expense.CategoryId" class="control-label">Category</label>
-        <select asp-for="Expense.CategoryId" class="form-control">
+        <label asp-for="CategoryId" class="control-label">Category</label>
+        <select asp-for="CategoryId" class="form-control">
             <option value="">Select a Category</option>
-            @foreach (var category in Model.Categories)
+            @foreach (var category in ViewBag.Categories)
             {
                 <option value="@category.CategoryId">@category.Title</option>
             }
         </select>
-        <span asp-validation-for="Expense.CategoryId" class="text-danger"></span>
+        <span asp-validation-for="CategoryId" class="text-danger"></span>
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

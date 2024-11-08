@@ -1,39 +1,44 @@
-﻿@model Expense_Tracker.ViewModels.IncomeEditViewModel
+﻿@model Expense_Tracker.Models.Income
 
-<form id="editIncomeForm" method="post">
+<form id="editIncomeForm" asp-action="UpdateIncome" method="post">
     @Html.AntiForgeryToken()
 
-    <input type="hidden" asp-for="Income.IncomeId" />
+    <input type="hidden" asp-for="IncomeId" />
 
     <div class="form-group">
-        <label asp-for="Income.Source" class="control-label"></label>
-        <input asp-for="Income.Source" class="form-control" />
-        <span asp-validation-for="Income.Source" class="text-danger"></span>
+        <label asp-for="Source" class="control-label"></label>
+        <input asp-for="Source" class="form-control" />
+        <span asp-validation-for="Source" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label asp-for="Income.Amount" class="control-label"></label>
-        <input asp-for="Income.Amount" class="form-control" />
-        <span asp-validation-for="Income.Amount" class="text-danger"></span>
+        <label asp-for="Amount" class="control-label"></label>
+        <input asp-for="Amount" class="form-control" />
+        <span asp-validation-for="Amount" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label asp-for="Income.Description" class="control-label"></label>
-        <textarea asp-for="Income.Description" class="form-control"></textarea>
-        <span asp-validation-for="Income.Description" class="text-danger"></span>
+        <label asp-for="Description" class="control-label"></label>
+        <textarea asp-for="Description" class="form-control"></textarea>
+        <span asp-validation-for="Description" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label asp-for="Income.IncomeDate" class="control-label"></label>
-        <input asp-for="Income.IncomeDate" type="date" class="form-control" />
-        <span asp-validation-for="Income.IncomeDate" class="text-danger"></span>
+        <label asp-for="IncomeDate" class="control-label"></label>
+        <input asp-for="IncomeDate" type="date" class="form-control" />
+        <span asp-validation-for="IncomeDate" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label asp-for="Income.CategoryId" class="control-label">Category</label>
-        <select asp-for="Income.CategoryId" class="form-control">
+        <label asp-for="CategoryId" class="control-label">Category</label>
+        <select asp-for="CategoryId" class="form-control">
             <option value="">Select a Category</option>
-            @foreach (var category in Model.Categories)
+            @foreach (var category in ViewBag.Categories)
             {
                 <option value="@category.CategoryId">@category.Title</option>
             }
         </select>
-        <span asp-validation-for="Income.CategoryId" class="text-danger"></span>
+        <span asp-validation-for="CategoryId" class="text-danger"></span>
     </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Save changes</button>
+    </div>
+   
 </form>

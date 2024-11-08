@@ -8,6 +8,7 @@
     Layout = "~/Views/Shared/_DashboardLayout.cshtml";
 }
 
+
 @functions {
     public string WordWrap(string text, int wordsPerLine)
     {
@@ -37,6 +38,9 @@
             <div class="d-flex justify-content-between mb-4">
                 <h5 class="card-title fw-semibold">Expenses</h5>
             </div>
+
+           
+
 
             <div class="d-flex justify-content-end mb-4" style="margin-right: 10%;">
                 <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addExpenseModal">
@@ -158,6 +162,8 @@
 </div>
 
 
+
+
 <!-- Modal for editing expense -->
 <div class="modal fade" id="editExpenseModal" tabindex="-1" aria-labelledby="editExpenseModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -201,11 +207,31 @@
 
 
 
-
-
     <script>
 
-    // Function to load the edit expense form into the modal
+   
+
+
+    // $('#editExpenseForm').submit(function (event) {
+    //     event.preventDefault(); // Prevent the default form submission
+
+    //     $.ajax({
+    //         type: 'POST',
+    //         url: $(this).attr('action'),
+    //         data: $(this).serialize(),
+    //         success: function (response) {
+    //             // Handle success - possibly reload or update the expense list
+    //             $('#editExpenseModal').modal('hide');
+    //             location.reload(); // Refresh to see updated list
+    //         },
+    //         error: function () {
+    //             alert('An error occurred while updating the expense.');
+    //         }
+    //     });
+    // });
+
+   
+
     function loadEditExpenseForm(expenseId) {
         $.ajax({
             url: '/Expenses/Edit/' + expenseId, // Controller action to get edit view
@@ -220,33 +246,8 @@
         });
     }
 
-    // // AJAX call to submit the form for editing expense
-    // $('#editExpenseContent').on('submit', '#editExpenseForm', function (e) {
-    //     e.preventDefault();
-
-    //     var formData = $(this).serialize();
-
-    //     $.ajax({
-    //         url: '/Expenses/UpdateExpense', // Action for updating expense
-    //         type: 'POST',
-    //         data: formData,
-    //         success: function () {
-    //             $('#editExpenseModal').modal('hide');
-    //             location.reload(); // Reload the page or update list
-    //         },
-    //         error: function () {
-    //             alert('An error occurred while updating the expense.');
-    //         }
-    //     });
-    // });
 
 
-
-
-   
-
-
-    
 
     function confirmDeleteExpense() {
         var expenseId = $('#expenseIdToDelete').val();
@@ -281,6 +282,27 @@
         // Show the modal
         $('#deleteExpenseModal').modal('show');
     }
+
+
+   
+        // $(document).ready(function () {
+        //     // Check if there is a success message and show the success toast
+        //     var successMessage = '@TempData["SuccessMessage"]';
+        //     if (successMessage) {
+        //         $('#successToast .toast-body').text(successMessage);
+        //         $('#successToast').toast({ autohide: true, delay: 3000 }).toast('show');
+        //     }
+
+        //     // Check if there is an error message and show the error toast
+        //     var errorMessage = '@TempData["ErrorMessage"]';
+        //     if (errorMessage) {
+        //         $('#errorToast .toast-body').text(errorMessage);
+        //         $('#errorToast').toast({ autohide: true, delay: 3000 }).toast('show');
+        //     }
+        // });
+
+
+    
 
 
 
