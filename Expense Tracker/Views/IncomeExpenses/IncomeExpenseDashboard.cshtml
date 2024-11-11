@@ -1,0 +1,224 @@
+﻿@{
+    ViewData["Title"] = "Income & Expense Dashboard";
+}
+
+@{
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+}
+
+<div class="container-fluid">
+    <h2 class="text-left mb-4">Income & Expense Dashboard</h2>
+
+    <!-- Filter Form -->
+@*     <form method="get" action="@Url.Action("IncomeExpenseDashboard")"> *@
+    <form method="get" action="@Url.Action("IncomeExpenseDashboardFilter", "Reports")">
+        <div class="row mb-4">
+            <div class="col-md-4">
+                <label for="Year">Select Year</label>
+                <select name="Year" id="Year" class="form-control">
+                    <option value="">--Select Year--</option>
+                    @for (int year = DateTime.Now.Year; year >= 2020; year--)
+                    {
+                        <option value="@year">@year</option>
+                    }
+                </select>
+            </div>
+            <div class="col-md-4">
+                <label for="Month">Select Month</label>
+                <select name="Month" id="Month" class="form-control">
+                    <option value="">--Select Month--</option>
+                    @for (int month = 1; month <= 12; month++)
+                    {
+                        <option value="@month">@System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(month)</option>
+                    }
+                </select>
+            </div>
+            <div class="col-md-4">
+                <button type="submit" class="btn btn-primary mt-4">Apply Filter</button>
+            </div>
+        </div>
+    </form>
+
+    <!-- Summary Cards -->
+    <div class="row text-center mb-4">
+        <div class="col-md-3">
+            <div class="card border-primary">
+                <div class="card-body">
+                    <h5 class="card-title">Total Income</h5>
+                    <p class="card-text text-success fw-bold">@ViewBag.TotalIncome</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-danger">
+                <div class="card-body">
+                    <h5 class="card-title">Total Expense</h5>
+                    <p class="card-text text-danger fw-bold">@ViewBag.TotalExpense</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-secondary">
+                <div class="card-body">
+                    <h5 class="card-title">Net Balance</h5>
+                    <p class="card-text fw-bold">@ViewBag.NetBalance</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-info">
+                <div class="card-body">
+                    <h5 class="card-title">Current Month Income</h5>
+                    <p class="card-text fw-bold text-info">@ViewBag.MonthlyIncome</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card border-info">
+                <div class="card-body">
+                    <h5 class="card-title">Current Month Expenses</h5>
+                    <p class="card-text fw-bold text-info">@ViewBag.MonthlyExpenses</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Charts Section -->
+    <div class="row mb-4">
+        <!-- Monthly Income vs Expense Chart -->
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Monthly Income vs Expense</h5>
+                    <div id="monthlyIncomeExpenseChart"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Income & Expense Category Breakdown -->
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Income by Category</h5>
+                    <div id="incomeByCategoryChart"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 mt-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Expense by Category</h5>
+                    <div id="expenseByCategoryChart"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Transactions Table -->
+    <h3 class="text-center mb-4">Recent Transactions</h3>
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered">
+            <thead class="table-primary">
+                <tr>
+                    <th>Date</th>
+                    <th>Type</th>
+                    <th>Category</th>
+                    <th>Description</th>
+                    <th>Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                @* Populate this with the latest income/expense records *@
+                @foreach (var transaction in ViewBag.RecentTransactions ?? Enumerable.Empty<dynamic>())
+                {
+                    <tr>
+                        <td>@transaction.Date.ToShortDateString()</td>
+                        <td>@transaction.Type</td>
+                        <td>@transaction.CategoryTitle</td>
+                        <td>@transaction.Description</td>
+                        <td>@transaction.Amount</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- ApexCharts Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+@* <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Monthly Income vs Expense Chart
+        var monthlyIncomeExpenseOptions = {
+            chart: { type: 'line' },
+            series: [
+                { name: 'Income', data: @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.IncomeByMonth)) },
+                { name: 'Expense', data: @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.ExpenseByMonth)) }
+            ],
+            xaxis: {
+                categories: @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.MonthLabels))
+                },
+            colors: ['#28a745', '#dc3545']
+        };
+        var monthlyIncomeExpenseChart = new ApexCharts(document.querySelector("#monthlyIncomeExpenseChart"), monthlyIncomeExpenseOptions);
+        monthlyIncomeExpenseChart.render();
+
+        // Income by Category Chart
+        var incomeByCategoryOptions = {
+            chart: { type: 'pie' },
+            series: @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.IncomeByCategory.Select(c => c.Total))),
+            labels: @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.IncomeByCategory.Select(c => c.CategoryTitle)))
+            };
+        var incomeByCategoryChart = new ApexCharts(document.querySelector("#incomeByCategoryChart"), incomeByCategoryOptions);
+        incomeByCategoryChart.render();
+
+        // Expense by Category Chart
+        var expenseByCategoryOptions = {
+            chart: { type: 'pie' },
+            series: @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.ExpenseByCategory.Select(c => c.Total))),
+            labels: @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.ExpenseByCategory.Select(c => c.CategoryTitle)))
+            };
+        var expenseByCategoryChart = new ApexCharts(document.querySelector("#expenseByCategoryChart"), expenseByCategoryOptions);
+        expenseByCategoryChart.render();
+    });
+</script> *@
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Monthly Income vs Expense Chart
+        var monthlyIncomeExpenseOptions = {
+            chart: { type: 'line' },
+            series: [
+                { name: 'Income', data: @Html.Raw(ViewBag.IncomeByMonthData) },
+                { name: 'Expense', data: @Html.Raw(ViewBag.ExpenseByMonthData) }
+            ],
+            xaxis: {
+                categories: @Html.Raw(ViewBag.MonthLabels)
+                },
+            colors: ['#28a745', '#dc3545']
+        };
+        var monthlyIncomeExpenseChart = new ApexCharts(document.querySelector("#monthlyIncomeExpenseChart"), monthlyIncomeExpenseOptions);
+        monthlyIncomeExpenseChart.render();
+
+        // Income by Category Chart
+        var incomeByCategoryOptions = {
+            chart: { type: 'pie' },
+            series: @Html.Raw(ViewBag.IncomeCategoryTotals),
+            labels: @Html.Raw(ViewBag.IncomeCategoryLabels)
+            };
+        var incomeByCategoryChart = new ApexCharts(document.querySelector("#incomeByCategoryChart"), incomeByCategoryOptions);
+        incomeByCategoryChart.render();
+
+        // Expense by Category Chart
+        var expenseByCategoryOptions = {
+            chart: { type: 'pie' },
+            series: @Html.Raw(ViewBag.ExpenseCategoryTotals),
+            labels: @Html.Raw(ViewBag.ExpenseCategoryLabels)
+            };
+        var expenseByCategoryChart = new ApexCharts(document.querySelector("#expenseByCategoryChart"), expenseByCategoryOptions);
+        expenseByCategoryChart.render();
+    });
+</script>
+
+
