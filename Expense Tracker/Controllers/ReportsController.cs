@@ -1,6 +1,7 @@
 ﻿using Expense_Tracker.Models.Database;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
+using System.Globalization;
 
 namespace Expense_Tracker.Controllers
 {
@@ -110,6 +111,10 @@ namespace Expense_Tracker.Controllers
                 .Where(e => e.ExpenseDate.Month == currentMonth)
                 .Sum(e => e.Amount);
 
+
+            // Calculate current month net balance
+            var currentMonthNetBalance = monthlyIncome - monthlyExpense;
+
             // Monthly data for trend chart
             var incomeByMonth = incomes
                 .GroupBy(i => new { i.IncomeDate.Year, i.IncomeDate.Month })
@@ -135,11 +140,20 @@ namespace Expense_Tracker.Controllers
                 .ToList();
 
             // Prepare data for JavaScript
-            ViewBag.TotalIncome = totalIncome;
-            ViewBag.TotalExpense = totalExpense;
-            ViewBag.NetBalance = netBalance;
-            ViewBag.MonthlyIncome = monthlyIncome;
-            ViewBag.MonthlyExpenses = monthlyExpense;
+            //ViewBag.TotalIncome = totalIncome;
+            //ViewBag.TotalExpense = totalExpense;
+            //ViewBag.NetBalance = netBalance;
+            //ViewBag.MonthlyIncome = monthlyIncome;
+            //ViewBag.MonthlyExpenses = monthlyExpense;
+
+            // Format totals as USD currency
+            ViewBag.TotalIncome = totalIncome.ToString("C", new CultureInfo("en-US"));
+            ViewBag.TotalExpense = totalExpense.ToString("C", new CultureInfo("en-US"));
+            ViewBag.NetBalance = netBalance.ToString("C", new CultureInfo("en-US"));
+            ViewBag.MonthlyIncome = monthlyIncome.ToString("C", new CultureInfo("en-US"));
+            ViewBag.MonthlyExpenses = monthlyExpense.ToString("C", new CultureInfo("en-US"));
+            ViewBag.CurrentMonthNetBalance = currentMonthNetBalance.ToString("C", new CultureInfo("en-US"));
+
 
             ViewBag.IncomeByMonthData = Newtonsoft.Json.JsonConvert.SerializeObject(incomeByMonth.Select(m => m.Total));
             ViewBag.ExpenseByMonthData = Newtonsoft.Json.JsonConvert.SerializeObject(expenseByMonth.Select(m => m.Total));
@@ -160,7 +174,6 @@ namespace Expense_Tracker.Controllers
             // Fetch incomes and expenses from MongoDB
             var incomes = await _mongoDbContext.Incomes.Find(_ => true).ToListAsync();
             var expenses = await _mongoDbContext.Expenses.Find(_ => true).ToListAsync();
-
 
             // Fetch categories from the database
             var categories = await _mongoDbContext.Categories.Find(_ => true).ToListAsync();
@@ -186,7 +199,7 @@ namespace Expense_Tracker.Controllers
             // Calculate net balance
             var netBalance = totalIncome - totalExpense;
 
-            // Current month data for income and expense
+            // Calculate current month data for income and expense
             var currentMonth = DateTime.Now.Month;
             var monthlyIncome = incomes
                 .Where(i => i.IncomeDate.Month == (month ?? currentMonth))
@@ -195,6 +208,9 @@ namespace Expense_Tracker.Controllers
             var monthlyExpense = expenses
                 .Where(e => e.ExpenseDate.Month == (month ?? currentMonth))
                 .Sum(e => e.Amount);
+
+            // Calculate current month net balance
+            var currentMonthNetBalance = monthlyIncome - monthlyExpense;
 
             // Monthly data for trend chart
             var incomeByMonth = incomes
@@ -209,17 +225,6 @@ namespace Expense_Tracker.Controllers
                 .OrderBy(g => g.Month)
                 .ToList();
 
-            //// Category breakdown for income and expenses
-            //var incomeByCategory = incomes
-            //    .GroupBy(i => i.CategoryId)
-            //    .Select(g => new { CategoryTitle = g.Key, Total = g.Sum(i => i.Amount) })
-            //    .ToList();
-
-            //var expenseByCategory = expenses
-            //    .GroupBy(e => e.CategoryId)
-            //    .Select(g => new { CategoryTitle = g.Key, Total = g.Sum(e => e.Amount) })
-            //    .ToList();
-
             // Category breakdown for income and expenses
             var incomeByCategory = incomes
                 .GroupBy(i => i.CategoryId)
@@ -231,13 +236,15 @@ namespace Expense_Tracker.Controllers
                 .Select(g => new { CategoryTitle = categories.FirstOrDefault(c => c.CategoryId == g.Key)?.Title ?? "Unknown", Total = g.Sum(e => e.Amount) })
                 .ToList();
 
-            // Prepare data for JavaScript
-            ViewBag.TotalIncome = totalIncome;
-            ViewBag.TotalExpense = totalExpense;
-            ViewBag.NetBalance = netBalance;
-            ViewBag.MonthlyIncome = monthlyIncome;
-            ViewBag.MonthlyExpenses = monthlyExpense;
+            // Format totals as USD currency
+            ViewBag.TotalIncome = totalIncome.ToString("C", new CultureInfo("en-US"));
+            ViewBag.TotalExpense = totalExpense.ToString("C", new CultureInfo("en-US"));
+            ViewBag.NetBalance = netBalance.ToString("C", new CultureInfo("en-US"));
+            ViewBag.MonthlyIncome = monthlyIncome.ToString("C", new CultureInfo("en-US"));
+            ViewBag.MonthlyExpenses = monthlyExpense.ToString("C", new CultureInfo("en-US"));
+            ViewBag.CurrentMonthNetBalance = currentMonthNetBalance.ToString("C", new CultureInfo("en-US"));
 
+            // Prepare data for JavaScript
             ViewBag.IncomeByMonthData = Newtonsoft.Json.JsonConvert.SerializeObject(incomeByMonth.Select(m => m.Total));
             ViewBag.ExpenseByMonthData = Newtonsoft.Json.JsonConvert.SerializeObject(expenseByMonth.Select(m => m.Total));
             ViewBag.MonthLabels = Newtonsoft.Json.JsonConvert.SerializeObject(incomeByMonth.Select(m => m.Month));
@@ -252,6 +259,21 @@ namespace Expense_Tracker.Controllers
         }
 
 
+        public async Task<IActionResult> CategoryDashboard()
+        {
+            // Fetch all categories from MongoDB
+            var categories = await _mongoDbContext.Categories.Find(_ => true).ToListAsync();
+
+            // Count categories by type
+            var expenseCategoryCount = categories.Count(c => c.Type == "Expense");
+            var incomeCategoryCount = categories.Count(c => c.Type == "Income");
+
+            // Prepare data for the view
+            ViewBag.ExpenseCategoryCount = expenseCategoryCount;
+            ViewBag.IncomeCategoryCount = incomeCategoryCount;
+
+            return View("~/Views/IncomeExpenses/CategoryDashboard.cshtml");
+        }
 
 
 

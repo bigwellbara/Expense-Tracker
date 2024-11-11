@@ -1,0 +1,29 @@
+﻿@{
+    ViewData["Title"] = "Income & Expense Dashboard";
+}
+
+@{
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+}
+<div class="container-fluid">
+<div class="row mb-4">
+    <!-- Category Type Summary -->
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Income Categories</h5>
+                <p class="card-text fw-bold">@ViewBag.IncomeCategoryCount</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Expense Categories</h5>
+                <p class="card-text fw-bold">@ViewBag.ExpenseCategoryCount</p>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
