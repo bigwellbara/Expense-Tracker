@@ -102,10 +102,7 @@ Setup
  Transactions Log
 
 - A centralized log of all financial transactions allows for deeper insights and auditing.
- Screenshots
 
-![Dashboard Overview](link-to-screenshot-dashboard)
-![Income Entry Form](link-to-screenshot-income-form)
 
  Contributing
 
