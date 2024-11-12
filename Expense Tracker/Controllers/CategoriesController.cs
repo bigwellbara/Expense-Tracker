@@ -130,13 +130,7 @@ namespace Expense_Tracker.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("CategoryId,Title,Description,Type")] Category category)
         {
-            //if (ModelState.IsValid)
-            //{
-            //    _context.Add(category);
-            //    await _context.SaveChangesAsync();
-            //    return RedirectToAction(nameof(Index));
-            //}
-            //return View(category);
+            
 
             if (ModelState.IsValid)
             {

@@ -1,0 +1,114 @@
+﻿@model List<Expense_Tracker.ViewModels.BudgetViewModel>
+
+@{
+    ViewData["Title"] = "Budgeting";
+}
+
+@{
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+}
+<div class="container-fluid">
+<div class="card">
+    <div class="card-body">
+        <div class="d-flex justify-content-between mb-4">
+            <h5 class="card-title fw-semibold">Budgets</h5>
+        </div>
+        <div class="d-flex justify-content-end mb-4" style="margin-right: 10%;">
+            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addBudgetModal">
+                Create Budget
+            </button>
+        </div>
+
+        <div class="table-responsive">
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Category</th>
+            <th>Amount</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Alert Threshold (%)</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var budget in Model)
+        {
+            <tr>
+                <td>@budget.CategoryName</td>
+                <td>@budget.Amount</td>
+                <td>@budget.StartDate.ToShortDateString()</td>
+                <td>@budget.EndDate.ToShortDateString()</td>
+                <td>@budget.AlertThreshold</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@budget.BudgetId" class="btn btn-primary">Edit</a>
+                    <a asp-action="Delete" asp-route-id="@budget.BudgetId" class="btn btn-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+        </div>
+</div>
+</div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="addBudgetModal" tabindex="-1" aria-labelledby="addBudgetModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addBudgetModalLabel">Create Budget</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="createBudgetForm" asp-action="CreateBudget" method="post">
+                    @Html.AntiForgeryToken()
+
+                    <!-- Amount Field -->
+                    <div class="form-group">
+                        <label for="Amount" class="control-label">Amount</label>
+                        <input type="number" class="form-control" id="Amount" name="Amount" required />
+                    </div>
+
+                    <!-- Start Date Field -->
+                    <div class="form-group">
+                        <label for="StartDate" class="control-label">Start Date</label>
+                        <input type="date" class="form-control" id="StartDate" name="StartDate" required />
+                    </div>
+
+                    <!-- End Date Field -->
+                    <div class="form-group">
+                        <label for="EndDate" class="control-label">End Date</label>
+                        <input type="date" class="form-control" id="EndDate" name="EndDate" required />
+                    </div>
+
+                    <!-- Alert Threshold Field -->
+                    <div class="form-group">
+                        <label for="AlertThreshold" class="control-label">Alert Threshold (%)</label>
+                        <input type="number" class="form-control" id="AlertThreshold" name="AlertThreshold" min="1" max="100" />
+                    </div>
+
+                    <!-- Category Dropdown -->
+                    <div class="form-group">
+                        <label for="CategoryId" class="control-label">Category</label>
+                        <select class="form-control" id="CategoryId" name="CategoryId" required>
+                            <option value="">Select a Category</option>
+                            @foreach (var category in ViewBag.Categories)
+                            {
+                                <option value="@category.CategoryId">@category.Title - @category.Type</option>
+                            }
+                        </select>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save Budget</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

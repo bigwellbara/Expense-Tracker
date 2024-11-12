@@ -13,7 +13,7 @@ namespace Expense_Tracker.Models.Database
             _database = client.GetDatabase(settings.Value.DatabaseName);
         }
 
-        public IMongoCollection<Transaction> Transactions => _database.GetCollection<Transaction>("Transactions");
+  
         public IMongoCollection<Category> Categories => _database.GetCollection<Category>("Categories");
         public IMongoCollection<User> Users => _database.GetCollection<User>("Users");
         public IMongoCollection<Expense> Expenses => _database.GetCollection<Expense>("Expenses");

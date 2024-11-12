@@ -18,15 +18,9 @@ namespace Expense_Tracker.Controllers
             _mongoDbContext = mongoDbContext;
             _logger = logger;
         }
-        //public async Task<IActionResult> IncomeIndex()
-        //{
+    
 
-        //    var allIncome = await _mongoDbContext.Incomes.Find(_ => true).ToListAsync();
-        //    return View("~/Views/IncomeExpenses/IncomeIndex.cshtml", allIncome);
-
-        //}
-
-     
+  
         public async Task<IActionResult> IncomeIndex()
         {
          
@@ -79,67 +73,6 @@ namespace Expense_Tracker.Controllers
             return Ok();
         }
 
-
-
-
-
-        //public async Task<IActionResult> Edit(Guid id)
-        //{
-        //    if (id == Guid.Empty)
-        //    {
-        //        return BadRequest();
-        //    }
-
-        //    var income = await _mongoDbContext.Incomes
-        //        .Find(c => c.IncomeId == id).FirstOrDefaultAsync();
-
-        //    if (income == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    // Fetch categories where Type is Income
-        //    var incomeCategories = await _mongoDbContext.Categories
-        //        .Find(c => c.Type == "Income").ToListAsync();
-
-        //    // Create a ViewModel for the partial view
-        //    var viewModel = new IncomeEditViewModel
-        //    {
-        //        Income = income,
-        //        Categories = incomeCategories
-        //    };
-
-        //    // Return the partial view
-        //    return PartialView("~/Views/IncomeExpenses/_EditIncomePartial.cshtml", viewModel);
-        //}
-
-
-        //public async Task<IActionResult> Edit(Guid id)
-        //{
-        //    if (id == Guid.Empty)
-        //    {
-        //        return BadRequest();
-        //    }
-
-        //    var income = await _mongoDbContext.Incomes
-        //        .Find(c => c.IncomeId == id).FirstOrDefaultAsync();
-
-        //    if (income == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    var incomeCategories = await _mongoDbContext.Categories
-        //        .Find(c => c.Type == "Income").ToListAsync();
-
-        //    ViewBag.Categories = incomeCategories; // Store categories in ViewBag
-        //    var viewModel = new IncomeEditViewModel
-        //    {
-        //        Income = income
-        //    };
-
-        //    // Return the partial view
-        //    return PartialView("~/Views/IncomeExpenses/_EditIncomePartial.cshtml", viewModel);
-        //}
 
 
         public async Task<IActionResult> Edit(Guid id)
