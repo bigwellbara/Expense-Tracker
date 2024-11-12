@@ -8,35 +8,35 @@ namespace Expense_Tracker.Models
     public class Transaction
     {
         [BsonId]  // Map _id to TransactionId
-        [BsonRepresentation(BsonType.String)]  // Store the ID as a string (optional)
+        [BsonRepresentation(BsonType.String)]  
         public Guid TransactionId { get; set; } = Guid.NewGuid();
 
-        [BsonElement("Amount")]  // The transaction amount (can be for either expense or income)
+        [BsonElement("Amount")]  
         public decimal Amount { get; set; }
 
-        [BsonElement("TransactionType")]  // Either 'Expense' or 'Income'
+        [BsonElement("TransactionType")]  
         public string TransactionType { get; set; }
 
         [BsonElement("TransactionDate")]  
         public DateTime TransactionDate { get; set; }
 
-        [BsonElement("UserId")]  // Foreign key reference to User
+        [BsonElement("UserId")]  
         [BsonRepresentation(BsonType.String)]  
         public Guid UserId { get; set; }
 
-        [BsonElement("ExpenseId")]  // Nullable foreign key reference to Expense
+        [BsonElement("ExpenseId")]  
         [BsonRepresentation(BsonType.String)]
-        public Guid? ExpenseId { get; set; }  // Nullable since not all transactions are expenses
+        public Guid? ExpenseId { get; set; }  
 
-        [BsonElement("IncomeId")]  // Nullable foreign key reference to Income
+        [BsonElement("IncomeId")]  
         [BsonRepresentation(BsonType.String)]
-        public Guid? IncomeId { get; set; }  // Nullable since not all transactions are income
+        public Guid? IncomeId { get; set; }  
 
-        [BsonElement("PaymentMethodId")]  // Foreign key reference to PaymentMethod
+        [BsonElement("PaymentMethodId")]  
         [BsonRepresentation(BsonType.String)]  
         public Guid PaymentMethodId { get; set; }
 
-        [BsonElement("CreatedDate")]  // Automatically set the creation date
+        [BsonElement("CreatedDate")] 
         public DateTime CreatedDate { get; set; } = DateTime.Now;
     }
 }

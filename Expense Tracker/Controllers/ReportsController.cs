@@ -239,8 +239,7 @@ namespace Expense_Tracker.Controllers
             // Format totals as USD currency
             ViewBag.TotalIncome = totalIncome.ToString("C", new CultureInfo("en-US"));
             ViewBag.TotalExpense = totalExpense.ToString("C", new CultureInfo("en-US"));
-            ViewBag.NetBalance = netBalance.ToString("C", new CultureInfo("en-US"));
-            ViewBag.MonthlyIncome = monthlyIncome.ToString("C", new CultureInfo("en-US"));
+            ViewBag.NetBalance = netBalance.ToString("C", new CultureInfo("en-US"));           ViewBag.MonthlyIncome = monthlyIncome.ToString("C", new CultureInfo("en-US"));
             ViewBag.MonthlyExpenses = monthlyExpense.ToString("C", new CultureInfo("en-US"));
             ViewBag.CurrentMonthNetBalance = currentMonthNetBalance.ToString("C", new CultureInfo("en-US"));
 
