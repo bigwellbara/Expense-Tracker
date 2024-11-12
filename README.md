@@ -33,13 +33,13 @@ and MongoDB, the project uses modern UI components and provides a clean, user-fr
 
 Setup
 
-1. Clone the Repository**
+1. Clone the Repository
    ```bash
    git clone https://github.com/your-username/expense-tracker.git
    cd expense-tracker
    ```
 
-2. Configure MongoDB Connection**
+2. Configure MongoDB Connection
    Update the MongoDB connection string in `appsettings.json`:
 
    ```json
@@ -49,12 +49,12 @@ Setup
    }
    ```
 
-3. Install Dependencies**
+3. Install Dependencies
    ```bash
    dotnet restore
    ```
 
-4. Run the Application**
+4. Run the Application
    ```bash
    dotnet run
    ```
