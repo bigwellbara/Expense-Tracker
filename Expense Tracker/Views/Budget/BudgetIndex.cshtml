@@ -32,20 +32,25 @@
         </tr>
     </thead>
     <tbody>
+    
+                        
         @foreach (var budget in Model)
         {
             <tr>
                 <td>@budget.CategoryName</td>
-                <td>@budget.Amount</td>
+                  <td>@string.Format("{0:C}", budget.Amount)</td>
                 <td>@budget.StartDate.ToShortDateString()</td>
                 <td>@budget.EndDate.ToShortDateString()</td>
                 <td>@budget.AlertThreshold</td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@budget.BudgetId" class="btn btn-primary">Edit</a>
+
+                <a href="javascript:void(0);" class="btn btn-sm btn-primary" data-income-id="@budget.BudgetId" onclick="loadEditBudgetForm('@budget.BudgetId')">Edit</a>
+
                     <a asp-action="Delete" asp-route-id="@budget.BudgetId" class="btn btn-danger">Delete</a>
                 </td>
             </tr>
         }
+   
     </tbody>
 </table>
 
@@ -67,6 +72,17 @@
                 <form id="createBudgetForm" asp-action="CreateBudget" method="post">
                     @Html.AntiForgeryToken()
 
+                    <!-- Category Dropdown -->
+                    <div class="form-group">
+                        <label for="CategoryId" class="control-label">Category</label>
+                        <select class="form-control" id="CategoryId" name="CategoryId" required>
+                            <option value="">Select a Category</option>
+                            @foreach (var category in ViewBag.Categories)
+                            {
+                                <option value="@category.CategoryId">@category.Title - @category.Type</option>
+                            }
+                        </select>
+                    </div>
                     <!-- Amount Field -->
                     <div class="form-group">
                         <label for="Amount" class="control-label">Amount</label>
@@ -91,17 +107,7 @@
                         <input type="number" class="form-control" id="AlertThreshold" name="AlertThreshold" min="1" max="100" />
                     </div>
 
-                    <!-- Category Dropdown -->
-                    <div class="form-group">
-                        <label for="CategoryId" class="control-label">Category</label>
-                        <select class="form-control" id="CategoryId" name="CategoryId" required>
-                            <option value="">Select a Category</option>
-                            @foreach (var category in ViewBag.Categories)
-                            {
-                                <option value="@category.CategoryId">@category.Title - @category.Type</option>
-                            }
-                        </select>
-                    </div>
+                  
 
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -112,3 +118,45 @@
         </div>
     </div>
 </div>
+
+
+                                                                <!-- Edit Modal -->
+<div class="modal fade" id="editBudgetModal" tabindex="-1" aria-labelledby="editBudgetModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editBudgetModalLabel">Edit Budget</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Edit form will be loaded here -->
+                <div id="editBudgetFormContent"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+ <script>
+
+    function loadEditBudgetForm(budgetId) {
+        $.ajax({
+            url: '/Budget/EditBudget/' + budgetId, // Adjust the URL to your routing
+
+            type: 'GET',
+            success: function (response) {
+                // Load the response (HTML form) into the modal body
+                $('#editBudgetFormContent').html(response);
+
+                // Show the modal after content is loaded
+                $('#editBudgetModal').modal('show');
+            },
+            error: function (xhr) {
+                alert('An error occurred while loading the form.'); // Handle errors
+            }
+        });
+    }
+
+
+
+  </script>

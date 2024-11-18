@@ -78,11 +78,10 @@
                                     </td>
 
                                     <td>
-                                     @*    <a asp-action="Edit" asp-route-id="@income.IncomeId" class="btn btn-sm btn-primary">Edit</a> *@
+                               
                                         <a href="javascript:void(0);" class="btn btn-sm btn-primary" data-income-id="@income.IncomeId" onclick="loadEditIncomeForm('@income.IncomeId')">Edit</a>
 
-                                     @*    <a asp-action="Delete" asp-route-id="@income.IncomeId" class="btn btn-sm btn-danger">Delete</a> *@
-                                        <!-- Delete button in your table or list item -->
+                                  
 
                                     <a href="javascript:void(0);" class="btn btn-sm btn-danger" data-income-id="@income.IncomeId" 
                                     onclick="showDeleteModal('@income.IncomeId', '@income.Source', '@income.Amount', '@income.IncomeDate')">Delete</a>

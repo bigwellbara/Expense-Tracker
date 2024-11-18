@@ -55,6 +55,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Update="Views\Budget\_EditBudgetPartial.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
     <Content Update="Views\IncomeExpenses\_EditExpensePartial.cshtml">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>

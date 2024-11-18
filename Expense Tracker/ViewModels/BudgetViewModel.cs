@@ -5,6 +5,8 @@ namespace Expense_Tracker.ViewModels
     public class BudgetViewModel
     {
         public Guid BudgetId { get; set; }
+        public Guid CategoryId { get; set; }
+        
         public decimal Amount { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
