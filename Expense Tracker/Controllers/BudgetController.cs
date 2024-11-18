@@ -181,11 +181,7 @@ namespace Expense_Tracker.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> UpdateBudget(BudgetViewModel model)
         {
-            if (!ModelState.IsValid)
-            {
-                // Return the modal form with validation errors
-                return RedirectToAction("BudgetIndex");
-            }
+           
 
             var budget = await _mongoDbContext.Budgets.Find(b => b.BudgetId == model.BudgetId).FirstOrDefaultAsync();
             if (budget == null)

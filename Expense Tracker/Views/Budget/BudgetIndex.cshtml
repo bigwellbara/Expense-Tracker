@@ -39,9 +39,13 @@
             <tr>
                 <td>@budget.CategoryName</td>
                   <td>@string.Format("{0:C}", budget.Amount)</td>
+                             
                 <td>@budget.StartDate.ToShortDateString()</td>
                 <td>@budget.EndDate.ToShortDateString()</td>
-                <td>@budget.AlertThreshold</td>
+           @*      <td>@budget.AlertThreshold</td> *@
+                                <td>@(budget.AlertThreshold.ToString("0.##") + "%")</td>
+
+
                 <td>
 
                 <a href="javascript:void(0);" class="btn btn-sm btn-primary" data-income-id="@budget.BudgetId" onclick="loadEditBudgetForm('@budget.BudgetId')">Edit</a>
