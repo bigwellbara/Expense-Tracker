@@ -132,6 +132,50 @@ namespace Expense_Tracker.Controllers
         }
 
 
+
+
+        //Bussiness logic 
+
+        public async Task<IActionResult>    BudgetDashboard()
+        {
+            // Retrieve all budgets from the database
+            var budgets = await _mongoDbContext.Budgets.Find(_ => true).ToListAsync();
+
+            // Calculate the total budgeted amount
+            var totalBudgetedAmount = budgets.Sum(b => b.Amount);
+
+            // Retrieve all expenses from the database
+            var expenses = await _mongoDbContext.Expenses.Find(e => true).ToListAsync();
+
+            // Calculate the total spent amount
+            var totalSpentAmount = expenses.Sum(e => e.Amount);
+
+            // Retrieve all categories
+            var categories = await _mongoDbContext.Categories.Find(_ => true).ToListAsync();
+
+            // Group expenses by CategoryId and map to Category titles
+            var categoryBreakdown = expenses
+                .GroupBy(e => e.CategoryId)
+                .Select(g => new
+                {
+                    CategoryTitle = categories.FirstOrDefault(c => c.CategoryId == g.Key)?.Title ?? "Unknown",
+                    TotalSpent = g.Sum(e => e.Amount)
+                })
+                .ToList();
+
+            // Calculate remaining budget
+            var remainingBudget = totalBudgetedAmount - totalSpentAmount;
+
+            // Pass data to the view
+            ViewBag.TotalBudgetedAmount = totalBudgetedAmount;
+            ViewBag.TotalSpentAmount = totalSpentAmount;
+            ViewBag.RemainingBudget = remainingBudget;
+            ViewBag.CategoryBreakdown = categoryBreakdown;
+
+            return View("~/Views/Budget/BudgetDashboard.cshtml");
+        }
+
+
     }
 
 }

@@ -1,0 +1,54 @@
+﻿@{
+    var totalBudgetedAmount = ViewBag.TotalBudgetedAmount;
+    var totalSpentAmount = ViewBag.TotalSpentAmount;
+    var remainingBudget = ViewBag.RemainingBudget;
+    var categoryBreakdown = ViewBag.CategoryBreakdown;
+}
+@{
+    ViewData["Title"] = "Budgeting";
+}
+
+@{
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+}
+
+<div class="container-fluid">
+
+    <div class="card">
+        <div class="card-body">
+            <div class="d-flex justify-content-between mb-4">
+                <h5 class="card-title fw-semibold">Budgets Summary</h5>
+            </div>
+         
+            <div>
+                <h3>Total Budgeted Amount: @totalBudgetedAmount</h3>
+                <h3>Total Spent Amount: @totalSpentAmount</h3>
+                <h3>Remaining Budget: @remainingBudget</h3>
+            </div>
+
+            <hr />
+
+            <h3>Category-wise Breakdown</h3>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Category</th>
+                        <th>Spent Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var category in categoryBreakdown)
+                    {
+                        <tr>
+                            <td>@category.CategoryTitle</td>
+                            <td>@category.TotalSpent</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+
+         </div>
+
+    </div>
+</div>
