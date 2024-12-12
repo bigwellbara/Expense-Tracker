@@ -1,54 +1,170 @@
 ﻿@{
-    var totalBudgetedAmount = ViewBag.TotalBudgetedAmount;
-    var totalSpentAmount = ViewBag.TotalSpentAmount;
-    var remainingBudget = ViewBag.RemainingBudget;
-    var categoryBreakdown = ViewBag.CategoryBreakdown;
-}
-@{
-    ViewData["Title"] = "Budgeting";
+    var budgetSpentBreakdown = ViewBag.BudgetSpentBreakdown;  // Breakdown of budget and expenses by month/year
+    var categoryBreakdown = ViewBag.CategoryBreakdown;  // Category breakdown of expenses
 }
 
 @{
+    ViewData["Title"] = "Budgeting";
     Layout = "~/Views/Shared/_DashboardLayout.cshtml";
 }
 
 <div class="container-fluid">
 
-    <div class="card">
-        <div class="card-body">
-            <div class="d-flex justify-content-between mb-4">
-                <h5 class="card-title fw-semibold">Budgets Summary</h5>
+  @*   <!-- Floating Statistics Boxes -->
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <div class="card bg-primary text-white rounded shadow">
+                <div class="card-body">
+                    <h5>Total Budgeted Amount</h5>
+                    <h2 class="fw-bold">@ViewBag.TotalBudgetedAmount</h2>
+                </div>
             </div>
-         
-            <div>
-                <h3>Total Budgeted Amount: @totalBudgetedAmount</h3>
-                <h3>Total Spent Amount: @totalSpentAmount</h3>
-                <h3>Remaining Budget: @remainingBudget</h3>
+        </div>
+        <div class="col-md-4">
+            <div class="card bg-danger text-white rounded shadow">
+                <div class="card-body">
+                    <h5>Total Spent Amount</h5>
+                    <h2 class="fw-bold">@ViewBag.TotalSpentAmount</h2>
+                </div>
             </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card bg-success text-white rounded shadow">
+                <div class="card-body">
+                    <h5>Remaining Budget</h5>
+                    <h2 class="fw-bold">@ViewBag.RemainingBudget</h2>
+                </div>
+            </div>
+        </div>
+    </div> *@
 
-            <hr />
-
-            <h3>Category-wise Breakdown</h3>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Category</th>
-                        <th>Spent Amount</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var category in categoryBreakdown)
-                    {
-                        <tr>
-                            <td>@category.CategoryTitle</td>
-                            <td>@category.TotalSpent</td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-
-
-         </div>
-
+    <!-- Floating Statistics Boxes -->
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <div class="card bg-primary text-white rounded shadow">
+                <div class="card-body">
+                    <h5>Total Budgeted Amount</h5>
+                    <h2 class="fw-bold">@ViewBag.TotalBudgetedAmount.ToString("C")</h2> <!-- Display as currency -->
+                    <h5>Year @DateTime.Now.Year</h5>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card bg-danger text-white rounded shadow">
+                <div class="card-body">
+                    <h5>Total Spent Amount</h5>
+                    <h2 class="fw-bold">@ViewBag.TotalSpentAmount.ToString("C")</h2> <!-- Display as currency -->
+                    <h5>Year @DateTime.Now.Year</h5>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card bg-success text-white rounded shadow">
+                <div class="card-body">
+                    <h5>Remaining Budget</h5>
+                    <h2 class="fw-bold">@ViewBag.RemainingBudget.ToString("C")</h2> <!-- Display as currency -->
+                    <h5>Year @DateTime.Now.Year</h5>
+                </div>
+            </div>
+        </div>
     </div>
+
+
+    <!-- Budget and Expenses Breakdown per Month -->
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <div class="card rounded shadow">
+                <div class="card-body">
+                    <h5 class="card-title fw-semibold">Budget and Expenses Breakdown</h5>
+                    <table class="table table-bordered table-striped">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Month</th>
+                                <th>Total Budgeted Amount</th>
+                                <th>Total Spent Amount</th>
+                                <th>Remaining Budget</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var monthData in budgetSpentBreakdown)
+                            {
+                                // Apply a red color if the budget is exceeded
+                                var rowClass = monthData.TotalSpentAmount > monthData.TotalBudgetedAmount ? "table-danger" : "";
+                                <tr class="@rowClass">
+                                    <td>@monthData.MonthName</td>
+                                    <td>@monthData.TotalBudgetedAmount.ToString("C")</td> <!-- Display as currency -->
+                                    <td>@monthData.TotalSpentAmount.ToString("C")</td> <!-- Display as currency -->
+                                    <td>@monthData.RemainingBudget.ToString("C")</td> <!-- Display as currency -->
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+ 
+
+    <!-- Category-wise Breakdown -->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card rounded shadow">
+                <div class="card-body">
+                    <h5 class="card-title fw-semibold">Category-wise Breakdown</h5>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Category</th>
+                                <th>Spent Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var category in categoryBreakdown)
+                            {
+                                <tr>
+                                    <td>@category.CategoryTitle</td>
+                                    <td>@category.TotalSpent</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Get the canvas element by its ID
+    const ctx = document.getElementById('budgetBarChart').getContext('2d');
+
+    // Create the chart for expenses overview
+    const budgetBarChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: @Html.Raw(Json.Serialize(ViewBag.CategoryTitles)),  // Categories
+            datasets: [{
+                label: 'Spent Amount',
+                data: @Html.Raw(Json.Serialize(ViewBag.SpentAmounts)),  // Spent data
+                backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { display: false },
+                title: { display: true, text: 'Category-wise Spending' }
+            },
+            scales: {
+                x: { beginAtZero: true },
+                y: { beginAtZero: true }
+            }
+        }
+    });
+</script>

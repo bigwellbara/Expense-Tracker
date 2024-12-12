@@ -20,7 +20,7 @@ namespace Expense_Tracker.Models
 
         [BsonElement("ExpenseDate")]  
         public DateTime ExpenseDate { get; set; }
-
+           
         [BsonElement("UserId")]  
         [BsonRepresentation(BsonType.String)]  
         public Guid UserId { get; set; }
