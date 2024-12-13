@@ -16,6 +16,10 @@
                 </a>
             </li>
         </ul>
+
+    @if (User.Identity.IsAuthenticated) {
+
+
         <div class="navbar-collapse justify-content-end px-0" id="navbarNav">
             <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-end">
                 <a href="https://adminmart.com/product/modernize-free-bootstrap-admin-dashboard/" target="_blank" class="btn btn-primary">Download Free</a>
@@ -38,12 +42,14 @@
                                 <i class="ti ti-list-check fs-6"></i>
                                 <p class="mb-0 fs-3">My Task</p>
                             </a>
-                            <a href="./authentication-login.html" class="btn btn-outline-primary mx-3 mt-2 d-block">Logout</a>
+                            <a href="@Url.Action("Logout", "Account")" class="btn btn-outline-primary mx-3 mt-2 d-block">Logout</a>
                         </div>
                     </div>
                 </li>
             </ul>
         </div>
+        }
+
     </nav>
 
 <!--  Header End -->

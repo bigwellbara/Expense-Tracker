@@ -1,19 +1,7 @@
 ﻿@{
-    ViewData["Title"] = "Expense Items List";
-    // <title>@ViewData["Title"] - Expense Items List</title>
+    ViewData["Title"] = "Welcome";
+
 }
-@* 
-<div class="bg-secondary bg-opacity-10">
-    <div class="container">
-        <h2>Dashboard</h2>
-    </div>
-</div>
-
-<div class="container">
-  
-    <p>@ViewData["Message"]</p>
-</div> *@
-
 
 <header class="main-header position-fixed w-100">
     <div class="container">
@@ -42,15 +30,14 @@
                         <a class="nav-link text-capitalize" href="#"></a>
                     </li>
                 </ul>
-                <div class="d-flex align-items-center">
-                    @*    <div class="input-group  search">
-                    <button class="btn border-0 p-0" type="button" id="button-addon1"><i class="ti ti-search text-white"></i></button>
-                    <input type="text" class="form-control border-0 bg-transparent ps-2" placeholder="search" aria-label="Example text with button addon" aria-describedby="button-addon1">
-                    </div> *@
-                    <a class="btn btn-warning btn-hover-secondery text-capitalize " href="#">register</a> |
-                    <a class="btn btn-warning btn-hover-secondery text-capitalize " asp-controller="Home" asp-action="Dashboard">login</a>
+                @if (User.Identity.IsAuthenticated == false)
+                {
+                    <div class="d-flex align-items-center">
+                        <a class="btn btn-warning btn-hover-secondery text-capitalize" href="@Url.Action("Register", "Account")">Register</a> |
+                        <a class="btn btn-warning btn-hover-secondery text-capitalize" href="@Url.Action("Login", "Account")">Login</a>
+                    </div>
+                }
 
-                </div>
             </div>
         </nav>
     </div>
