@@ -82,7 +82,7 @@ namespace Expense_Tracker.Controllers
                 return View(model);
             }
 
-            [HttpPost]
+            [HttpPost]  
             public async Task<IActionResult> Logout()
             {
                 await _signInManager.SignOutAsync();

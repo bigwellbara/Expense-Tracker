@@ -1,30 +1,99 @@
 ﻿@model Expense_Tracker.ViewModels.RegisterViewModel
 
-<h2>Register</h2>
-<form asp-action="Register" method="post">
-    <div>
-        <label asp-for="FirstName"></label>
-        <input asp-for="FirstName" />
+
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SeoDash Free Bootstrap Admin Template by Adminmart</title>
+    <link rel="shortcut icon" type="image/png" href="~/assets/images/logos/seodashlogo.png" />
+    <link rel="stylesheet" href="~/assets/css/styles.min.css" />
+</head>
+
+<body>
+    <!--  Body Wrapper -->
+    <div class="page-wrapper " id="main-wrapper" data-layout="vertical"  data-navbarbg="skin6" data-sidebartype="full"
+         data-sidebar-position="fixed" data-header-position="fixed">
+        <div class="position-relative overflow-hidden radial-gradient min-vh-100 d-flex align-items-center justify-content-center">
+            <div class="d-flex align-items-center justify-content-center w-100">
+                <div class="row justify-content-center w-100">
+                    <div class="col-md-8 col-lg-6 col-xxl-3">
+                        <div class="card mt-4 mb-4">
+                            <div class="card-body">
+                                <a href="#" class="text-nowrap logo-img text-center d-block py-3 w-100">
+                                    <img src="~/custom/assets/images/expense-logo.svg" alt="">
+
+                                    
+                                </a>
+
+                                <form asp-action="Register" method="post" id="registerForm">
+                                    <div class="row">
+                                        <div class="col-md-6 mb-2">
+                                            <label for="firstname" class="form-label">First Name</label>
+                                            <input asp-for="FirstName" type="text" class="form-control" id="firstname" name="FirstName" required>
+                                        </div>
+                                        <div class="col-md-6 mb-2">
+                                            <label for="lastname" class="form-label">Last Name</label>
+                                            <input asp-for="LastName" type="text" class="form-control" id="lastname" name="LastName" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-2">
+                                        <label for="nationalid" class="form-label">National ID</label>
+                                        <input asp-for="NationalID" type="text" class="form-control" name="NationalID" id="national-id" required pattern="^\d{2}-\d{6}[A-Z]\d{2}$"
+                                               title="Format: 00-000000A00">
+                                    </div>
+
+                                    <div class="mb-2">
+                                        <label for="email" class="form-label">Email address</label>
+                                        <input asp-for="Email" type="email" class="form-control" name="Email" id="email" required>
+                                    </div>
+
+                                    <div class="mb-0">
+                                        <label for="password" class="form-label">Password</label>
+                                        <input asp-for="Password" type="password" class="form-control" name="Password" id="password" required
+                                               minlength="8" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                                               title="Must contain at least one digit, one lowercase, one uppercase letter, and at least 8 characters">
+                                    </div>
+
+                                    <div class="mb-2">
+                                        <label for="confirm-password" class="form-label">Confirm Password</label>
+                                        <input asp-for="ConfirmPassword" type="password" class="form-control" name="ConfirmPassword" id="confirm-password" required>
+                                    </div>
+
+                                    <button type="submit" class="btn btn-primary w-100 py-8 fs-4 mb-2">Create Account</button>
+
+                                    <div class="d-flex align-items-center justify-content-center">
+                                        <p class="fs-4 mb-0 fw-bold">Already have an Account?</p>
+                                        <a class="text-capitalize text-primary fw-bold ms-2" href="@Url.Action("Login", "Account")">Login</a>
+                                    </div>
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div>
-        <label asp-for="LastName"></label>
-        <input asp-for="LastName" />
-    </div>
-    <div>
-        <label asp-for="NationalID"></label>
-        <input asp-for="NationalID" />
-    </div>
-    <div>
-        <label asp-for="Email"></label>
-        <input asp-for="Email" />
-    </div>
-    <div>
-        <label asp-for="Password"></label>
-        <input asp-for="Password" type="password" />
-    </div>
-    <div>
-        <label asp-for="ConfirmPassword"></label>
-        <input asp-for="ConfirmPassword" type="password" />
-    </div>
-    <button type="submit">Register</button>
-</form>
+    <script src="../assets/libs/jquery/dist/jquery.min.js"></script>
+    <script src="../assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
+</body>
+
+</html>
+
+<script>
+    document.getElementById("registerForm").addEventListener("submit", function (e) {
+        const password = document.getElementById("password").value;
+        const confirmPassword = document.getElementById("confirm-password").value;
+
+        if (password !== confirmPassword) {
+            e.preventDefault();
+            alert("Passwords do not match!");
+        }
+    });
+</script>
+

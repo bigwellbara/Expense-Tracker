@@ -23,7 +23,7 @@ builder.Services.AddIdentityMongoDbProvider<ApplicationUser, ApplicationRole>(id
     identityOptions.Password.RequireLowercase = true;
     identityOptions.Password.RequireUppercase = true;
     identityOptions.Password.RequireNonAlphanumeric = false;
-    identityOptions.Password.RequiredLength = 6;
+    identityOptions.Password.RequiredLength = 8;
     identityOptions.Lockout.MaxFailedAccessAttempts = 5;
     identityOptions.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
     identityOptions.User.RequireUniqueEmail = true;
