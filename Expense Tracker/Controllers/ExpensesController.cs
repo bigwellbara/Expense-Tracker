@@ -6,9 +6,11 @@ using MongoDB.Bson;
 using MongoDB.Driver;
 using System.Diagnostics;
 using Expense_Tracker.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Expense_Tracker.Controllers
 {
+    [Authorize]
     public class ExpensesController : Controller
     {
 

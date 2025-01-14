@@ -42,7 +42,10 @@
                                 <i class="ti ti-list-check fs-6"></i>
                                 <p class="mb-0 fs-3">My Task</p>
                             </a>
-                            <a href="@Url.Action("Logout", "Account")" class="btn btn-outline-primary mx-3 mt-2 d-block">Logout</a>
+                        <form asp-action="Logout" asp-controller="Account" method="post" class="d-inline">
+                            <button type="submit" class="btn btn-outline-primary mx-3 mt-2 d-block">Logout</button>
+                        </form>
+
                         </div>
                     </div>
                 </li>

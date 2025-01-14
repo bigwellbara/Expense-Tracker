@@ -27,13 +27,20 @@ builder.Services.AddIdentityMongoDbProvider<ApplicationUser, ApplicationRole>(id
     identityOptions.Lockout.MaxFailedAccessAttempts = 5;
     identityOptions.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
     identityOptions.User.RequireUniqueEmail = true;
+    
 }, mongoOptions =>
 {
     mongoOptions.ConnectionString = builder.Configuration.GetConnectionString("MongoIdentityConnection");
 });
 
-// Add authentication and authorization middleware
-builder.Services.AddAuthentication();
+// authentication and authorization middleware
+builder.Services.AddAuthentication(
+    options =>
+    {
+        options.DefaultAuthenticateScheme = IdentityConstants.ApplicationScheme;
+        options.DefaultChallengeScheme = IdentityConstants.ApplicationScheme;
+    }
+    ).AddCookie(IdentityConstants.ApplicationScheme);
 builder.Services.AddAuthorization();
 
 var app = builder.Build();

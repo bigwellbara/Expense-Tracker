@@ -1,12 +1,15 @@
 ﻿using Expense_Tracker.Models;
 using Expense_Tracker.Models.Database;
 using Expense_Tracker.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
 using System.Diagnostics;
 
 namespace Expense_Tracker.Controllers
 {
+
+    [Authorize]
     public class IncomeController : Controller
     {
         private readonly ILogger<IncomeController> _logger;

@@ -3,9 +3,11 @@ using Expense_Tracker.Models;
 using Expense_Tracker.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Expense_Tracker.Controllers
 {
+    [Authorize]
     public class BudgetController : Controller
     {
         private readonly MongoDbContext _mongoDbContext;
@@ -17,8 +19,8 @@ namespace Expense_Tracker.Controllers
         }
 
 
-        
 
+       
         public async Task<IActionResult> BudgetIndex()
         {
             var budgets = await _mongoDbContext.Budgets.Find(_ => true).ToListAsync();

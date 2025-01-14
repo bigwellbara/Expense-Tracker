@@ -9,9 +9,11 @@ using Expense_Tracker.Models;
 using Expense_Tracker.Models.Database;
 using MongoDB.Driver;
 using MongoDB.Driver.Linq;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Expense_Tracker.Controllers
 {
+    [Authorize]
     public class CategoriesController : Controller
     {
         //private readonly ApplicationDbContext _context;

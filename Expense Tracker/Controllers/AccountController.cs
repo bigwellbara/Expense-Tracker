@@ -73,10 +73,13 @@ namespace Expense_Tracker.Controllers
             {
                 if (!ModelState.IsValid) return View(model);
 
-                var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
+                var result = await _signInManager.PasswordSignInAsync(model.Username, model.Password, model.RememberMe, false);
 
                 if (result.Succeeded)
-                    return RedirectToAction("Dashboard", "Home");
+            {
+                return RedirectToAction("Dashboard", "Home");
+            }
+                   
 
                 ModelState.AddModelError("", "Invalid login attempt.");
                 return View(model);
